@@ -1,0 +1,2 @@
+std::array<std::pair<QString, QString>, @NB_LANGS@> langs = {{
+@LANG_PAIRS@}};

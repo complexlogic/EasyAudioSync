@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>easyaudiosync256.png</file>
+  </qresource>
+</RCC>

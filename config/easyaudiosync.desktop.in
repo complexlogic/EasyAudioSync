@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.5
+Type=Application
+Name=@CMAKE_PROJECT_NAME@
+TryExec=@EXECUTABLE_NAME@
+Exec=@EXECUTABLE_NAME@
+Icon=@RDNS_NAME@
+Categories=Qt;Audio;AudioVideo;
+Comment=@CMAKE_PROJECT_DESCRIPTION@
+Comment[en]=@CMAKE_PROJECT_DESCRIPTION@
