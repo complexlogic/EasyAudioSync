@@ -25,9 +25,6 @@
           <li>Destination folder cleaning (deleting files that no longer exist in the source)</li>
         </ul>
     </description>
-    <releases>
-        <release/>
-    </releases>
     <url type="homepage"></url>
     <url type="bugtracker"></url>
     <url type="help"></url>

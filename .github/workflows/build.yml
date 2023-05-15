@@ -1,0 +1,174 @@
+name: Build
+
+on:
+  push:
+    paths-ignore:
+      - "**/**.md"
+
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "**/**.md"
+
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  actions: none
+  checks: none
+  contents: write
+  deployments: none
+  issues: none
+  packages: read
+  pull-requests: none
+  repository-projects: none
+  security-events: none
+  statuses: read
+
+env:
+  VCPKG_COMMITTISH: acf66d284e432e63f286610504b31e1700d2e124
+
+jobs:
+  build_windows:
+    name: Windows
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+
+    env:
+      CMAKE_BUILD_TYPE: Release
+      CMAKE_GENERATOR: Visual Studio 17 2022
+      VCPKG_TRIPLET: x64-windows
+      NSIS_INSTALLER: ${{startsWith(github.ref, 'refs/tags/') && 'ON' || 'OFF'}}
+      PKG_EXTENSION: ${{startsWith(github.ref, 'refs/tags/') && '.exe' || '.zip'}}
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
+
+      - name: Setup vcpkg
+        uses: friendlyanon/setup-vcpkg@v1
+        with:
+          committish: ${{env.VCPKG_COMMITTISH}}
+
+      - name: Setup Overlays
+        uses: actions/checkout@v3
+        with:
+          repository: complexlogic/vcpkg
+          ref: refs/heads/easyaudiosync
+          path: build/overlays
+
+      - name: Configure
+        run: |
+          mkdir C:/vcpkg_buildtrees
+          cmake -S . -B build \
+            -G "${{env.CMAKE_GENERATOR}}" \
+            -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" \
+            -DVCPKG_OVERLAY_PORTS=build/overlays/ports \
+            -DVCPKG_TARGET_TRIPLET=${{env.VCPKG_TRIPLET}} \
+            -DNSIS_INSTALLER=${{env.NSIS_INSTALLER}} \
+            -DVCPKG_INSTALL_OPTIONS="--x-buildtrees-root=c:/vcpkg_buildtrees"
+
+      - name: Build
+        run: cmake --build build --target package --config ${{env.CMAKE_BUILD_TYPE}}
+
+      - name: Upload Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows build
+          path: build/*${{env.PKG_EXTENSION}}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/*${{env.PKG_EXTENSION}}
+
+  build_macos:
+    name: macOS
+    runs-on: macos-12
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Intel
+            OSX_ARCH: x86_64
+            VCPKG_TRIPLET: x64-osx
+
+          - name: Apple Silicon
+            OSX_ARCH: arm64
+            VCPKG_TRIPLET: arm64-osx
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
+
+      - name: Setup vcpkg
+        uses: friendlyanon/setup-vcpkg@v1
+        with:
+          committish: ${{env.VCPKG_COMMITTISH}}
+          cache-key: vcpkg-macOS-${{matrix.config.OSX_ARCH}}
+          cache-restore-keys: vcpkg-macOS-${{matrix.config.OSX_ARCH}}
+
+      - name: Setup Overlays
+        uses: actions/checkout@v3
+        with:
+          repository: complexlogic/vcpkg
+          ref: refs/heads/easyaudiosync
+          path: build/overlays
+
+      - name: Install Dependencies
+        run: brew install nasm automake autoconf-archive ninja
+
+      - name: Configure
+        run: cmake -S . -B build 
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_OSX_ARCHITECTURES=${{matrix.config.OSX_ARCH}}
+          -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -DVCPKG_OVERLAY_PORTS=build/overlays/ports
+          -DVCPKG_TARGET_TRIPLET=${{matrix.config.VCPKG_TRIPLET}}
+          -DDMG=ON
+
+      - name: Build
+        run: cmake --build build --target dmg
+
+      - name: Upload Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: macOS (${{matrix.config.name}}) build
+          path: build/*.dmg
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/*.dmg
+
+  build_linux:
+    name: Linux Flatpak
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    env:
+      RUNTIME_VERSION: 5.15-22.08
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v3
+        with:
+          path: EasyAudioSync
+
+      - name: Setup
+        run: |
+          sudo apt update && sudo apt install -y flatpak flatpak-builder
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y runtime/org.kde.Sdk/x86_64/${{env.RUNTIME_VERSION}} runtime/org.kde.Platform/x86_64/${{env.RUNTIME_VERSION}}
+
+      - name: Build
+        run: |
+          cp EasyAudioSync/config/flatpak/* .
+          mkdir build
+          flatpak-builder --user --install build io.github.complexlogic.EasyAudioSync.yml

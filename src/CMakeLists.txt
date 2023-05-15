@@ -63,6 +63,11 @@ qt_wrap_ui(SOURCE_FILES ${UI_PATHS})
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
 add_compile_definitions("BUILD_DATE=\"${BUILD_DATE}\"")
 if (UNIX)
+  if (APPLE)
+    set(MACOS_ICON "${PROJECT_SOURCE_DIR}/assets/icons/${EXECUTABLE_NAME}.icns")
+    set_source_files_properties("${MACOS_ICON}" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    list(APPEND SOURCE_FILES "${MACOS_ICON}")
+  endif ()
   add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
   target_link_libraries(${EXECUTABLE_NAME}
     Qt${QT_VERSION}::Core
@@ -85,8 +90,31 @@ if (UNIX)
       COMMAND ${STRIP} "${PROJECT_BINARY_DIR}/${EXECUTABLE_NAME}"
     )
   endif ()
+  if (APPLE)
+    if (DMG)
+      set_target_properties(${EXECUTABLE_NAME} PROPERTIES 
+                            MACOSX_BUNDLE ON
+                            MACOSX_BUNDLE_EXECUTABLE_NAME "${EXECUTABLE_NAME}"
+                            MACOSX_BUNDLE_INFO_STRING "${PROJECT_DESCRIPTION}"
+                            MACOSX_BUNDLE_ICON_FILE "${EXECUTABLE_NAME}.icns"
+                            MACOSX_BUNDLE_GUI_IDENTIFIER "${RDNS_NAME}"
+                            MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}"
+                            MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
+                            MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+                            MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+                            MACOSX_BUNDLE_COPYRIGHT "Public Domain"
 
-  if (NOT APPLE)
+      )
+      install(CODE "include(BundleUtilities)\nfixup_bundle(\"${PROJECT_BINARY_DIR}/${EXECUTABLE_NAME}.app\" \"\" \"\")")
+      add_custom_target(my_install COMMAND ${CMAKE_COMMAND} --build . --target install WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+      add_custom_target(dmg
+        COMMAND mv "${EXECUTABLE_NAME}.app" "${PROJECT_NAME}.app" # fixup_bundle won't accept app names with spaces so need to manually rename
+        COMMAND "${MACDEPLOYQT}" "${PROJECT_NAME}.app" -dmg
+        COMMAND mv "${PROJECT_NAME}.dmg" "${EXECUTABLE_NAME}-${PROJECT_VERSION}-${CMAKE_OSX_ARCHITECTURES}.dmg"
+        WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+      add_dependencies(dmg my_install)
+    endif ()
+  else ()
     install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     set (DATA_DIR "${CMAKE_INSTALL_PREFIX}/share")
     install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.desktop" DESTINATION "${DATA_DIR}/applications")
