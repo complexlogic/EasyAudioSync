@@ -27,8 +27,17 @@ The program's design is inspired by the [rsync](https://github.com/WayneD/rsync)
 ## Installation
 
 ### Windows
+Easy Audio Sync is compatible with Windows 10 and later. Download the installer executable from the link below, run it, and follow the guided setup process:
+- [Easy Audio Sync v1.0 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-setup.exe)
+
+If Windows raises a SmartScreen warning when you try to run the executable, select More Info->Run Anyway.
 
 ### macOS
+*Note: I haven't tested these builds because I have no access to macOS hardware. Consider macOS support experimental, and open an issue on the [Issue Tracker](https://github.com/complexlogic/EasyAudioSync/issues) if you encounter any bugs.*
+
+Separate builds are available for Intel and Apple Silicon based Macs (both require macOS 12 or later):
+- [Easy Audio Sync v1.0 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-x86_64.dmg)
+- [Easy Audio Sync v1.0 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-arm64.dmg)
 
 ### Linux
 
