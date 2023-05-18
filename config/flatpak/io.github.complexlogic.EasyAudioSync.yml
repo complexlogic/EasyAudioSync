@@ -9,6 +9,7 @@ finish-args:
   - --filesystem=home
   - --filesystem=/media
   - --filesystem=/run/media
+  - --filesystem=xdg-run/gvfs
 modules:
   - name: EasyAudioSync
     buildsystem: cmake-ninja

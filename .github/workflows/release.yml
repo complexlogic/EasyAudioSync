@@ -37,7 +37,7 @@ jobs:
           REPO=${{github.repository}}
           REPO_TITLE=${REPO#*/}
           RELEASE_TITLE=${{github.event.release.name}}
-          PACKAGE_TITLE=${REPO_TITLE}-${RELEASE_TITLE#*v}
+          PACKAGE_TITLE=easyaudiosync-${RELEASE_TITLE#*v}
 
           echo "PACKAGE_TITLE=${PACKAGE_TITLE}" >> ${GITHUB_ENV}
 

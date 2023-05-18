@@ -10,9 +10,6 @@
     <provides>
         <binary>@EXECUTABLE_NAME@</binary>
     </provides>
-    <screenshots>
-        <screenshot/>
-    </screenshots>
     <description>
         <p>Easy Audio Sync is an audio library syncing and conversion utility. The intended use is syncing an audio library with many lossless files to a mobile device with limited storage.</p>
         <p>Features:</p>
@@ -25,7 +22,14 @@
           <li>Destination folder cleaning (deleting files that no longer exist in the source)</li>
         </ul>
     </description>
-    <url type="homepage"></url>
-    <url type="bugtracker"></url>
-    <url type="help"></url>
+    <screenshots>
+        <screenshot type="default"><image>https://github.com/complexlogic/EasyAudioSync/assets/95071366/e32beb0c-2f07-4b39-a75f-93ed6226c014</image></screenshot>
+        <screenshot><image>https://github.com/complexlogic/EasyAudioSync/assets/95071366/9f4bcc67-995f-4f74-b533-13581e2bbd92</image></screenshot>
+    </screenshots>
+    <url type="homepage">https://github.com/complexlogic/EasyAudioSync</url>
+    <url type="bugtracker">https://github.com/complexlogic/EasyAudioSync/issues</url>
+    <url type="help">https://github.com/complexlogic/EasyAudioSync/discussions</url>
+    <releases>
+        <release version="1.0" date="2023-05-17"/>
+    </releases>
 </component>

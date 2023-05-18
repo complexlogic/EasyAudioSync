@@ -5,7 +5,7 @@ if (VCPKG)
 endif ()
 
 project("Easy Audio Sync"
-  VERSION 0.9
+  VERSION 1.0
   DESCRIPTION "Audio library syncing and conversion utility"
   HOMEPAGE_URL "https://github.com/complexlogic/EasyAudioSync"
   LANGUAGES CXX
@@ -114,7 +114,7 @@ endif()
 # Linux desktop and appstream
 if (UNIX AND NOT APPLE)
   configure_file("${PROJECT_SOURCE_DIR}/config/${EXECUTABLE_NAME}.desktop.in" "${PROJECT_BINARY_DIR}/${RDNS_NAME}.desktop")
-  configure_file("${PROJECT_SOURCE_DIR}/config/metainfo.xml.in" "${PROJECT_BINARY_DIR}/${RDNS_NAME}.metainfo.xml")
+  configure_file("${PROJECT_SOURCE_DIR}/config/appdata.xml.in" "${PROJECT_BINARY_DIR}/${RDNS_NAME}.appdata.xml")
 endif ()
 
 add_subdirectory(src)

@@ -11,7 +11,7 @@
     </message>
     <message>
         <location filename="../src/ui/about.ui" line="151"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Easy Audio Sync is an audio library syncing and transcoding utility. The intended use case is syncing an audio library with many lossless files to a mobile device with limited storage.&lt;/p&gt;&lt;p&gt;See the GitHub page for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Easy Audio Sync is an audio library syncing and conversion utility. The intended use is syncing an audio library with many lossless files to a mobile device with limited storage.&lt;/p&gt;&lt;p&gt;See the &lt;a href=&quot;https://github.com/complexlogic/EasyAudioSync&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;GitHub page&lt;/span&gt;&lt;/a&gt; for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -63,90 +63,95 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/main.cpp" line="123"/>
+        <location filename="../src/main.cpp" line="127"/>
         <source>Select Source Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="140"/>
+        <location filename="../src/main.cpp" line="132"/>
         <source>Select Destination Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="171"/>
-        <location filename="../src/main.cpp" line="175"/>
-        <location filename="../src/main.cpp" line="179"/>
-        <location filename="../src/main.cpp" line="301"/>
+        <location filename="../src/main.cpp" line="165"/>
+        <location filename="../src/main.cpp" line="169"/>
+        <location filename="../src/main.cpp" line="173"/>
+        <location filename="../src/main.cpp" line="299"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="171"/>
+        <location filename="../src/main.cpp" line="165"/>
         <source>The source directory does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="175"/>
+        <location filename="../src/main.cpp" line="169"/>
         <source>The destination directory does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="179"/>
+        <location filename="../src/main.cpp" line="173"/>
         <source>The source and destination directories cannot be the same.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="203"/>
+        <location filename="../src/main.cpp" line="197"/>
         <source>Stop requested</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="296"/>
+        <location filename="../src/main.cpp" line="293"/>
         <source>The sync completed successfully.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="300"/>
+        <location filename="../src/main.cpp" line="297"/>
         <source>Sync completed with one or more errors in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="301"/>
+        <location filename="../src/main.cpp" line="298"/>
+        <source>See the log file &apos;%1&apos; for more information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="299"/>
         <source>The sync completed with one or more errors.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="309"/>
+        <location filename="../src/main.cpp" line="307"/>
         <source>Sync aborted due to error(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="233"/>
+        <location filename="../src/main.cpp" line="227"/>
         <source>Quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="234"/>
+        <location filename="../src/main.cpp" line="228"/>
         <source>Are you sure you want to quit while a sync is in-progress?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="290"/>
+        <location filename="../src/main.cpp" line="287"/>
         <source>Nothing to do</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="291"/>
+        <location filename="../src/main.cpp" line="288"/>
         <source>The destination directory is already up-to-date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="295"/>
+        <location filename="../src/main.cpp" line="292"/>
         <source>Sync completed successfully in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="305"/>
+        <location filename="../src/main.cpp" line="303"/>
         <source>Sync stopped</source>
         <translation type="unfinished"></translation>
     </message>
@@ -194,42 +199,42 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="139"/>
+        <location filename="../src/ui/mainwindow.ui" line="145"/>
         <source>Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="170"/>
+        <location filename="../src/ui/mainwindow.ui" line="179"/>
         <source>Time Remaining:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="183"/>
+        <location filename="../src/ui/mainwindow.ui" line="195"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="234"/>
+        <location filename="../src/ui/mainwindow.ui" line="249"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="241"/>
+        <location filename="../src/ui/mainwindow.ui" line="256"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="250"/>
+        <location filename="../src/ui/mainwindow.ui" line="265"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="255"/>
+        <location filename="../src/ui/mainwindow.ui" line="270"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="260"/>
+        <location filename="../src/ui/mainwindow.ui" line="275"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -237,17 +242,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.hpp" line="225"/>
+        <location filename="../src/settings.hpp" line="227"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.hpp" line="226"/>
+        <location filename="../src/settings.hpp" line="228"/>
         <source>File Handling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.hpp" line="227"/>
+        <location filename="../src/settings.hpp" line="229"/>
         <source>Transcoding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -291,41 +296,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="96"/>
+        <location filename="../src/config.hpp" line="98"/>
         <source>VBR Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="97"/>
+        <location filename="../src/config.hpp" line="99"/>
         <source>VBR Medium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="98"/>
-        <source>VBR High</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/config.hpp" line="99"/>
-        <location filename="../src/config.hpp" line="114"/>
-        <source>CBR 96 kbps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/config.hpp" line="100"/>
-        <location filename="../src/config.hpp" line="115"/>
-        <source>CBR 128 kbps</source>
+        <source>VBR High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/config.hpp" line="101"/>
         <location filename="../src/config.hpp" line="116"/>
-        <source>CBR 192 kbps</source>
+        <source>CBR 96 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/config.hpp" line="102"/>
         <location filename="../src/config.hpp" line="117"/>
+        <source>CBR 128 kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/config.hpp" line="103"/>
+        <location filename="../src/config.hpp" line="118"/>
+        <source>CBR 192 kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/config.hpp" line="104"/>
+        <location filename="../src/config.hpp" line="119"/>
         <source>CBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -419,17 +424,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="174"/>
+        <location filename="../src/config.hpp" line="176"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="175"/>
+        <location filename="../src/config.hpp" line="177"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="176"/>
+        <location filename="../src/config.hpp" line="178"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -452,42 +457,42 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="68"/>
+        <location filename="../src/config.hpp" line="70"/>
         <source>VBR Low (V6)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="69"/>
+        <location filename="../src/config.hpp" line="71"/>
         <source>VBR Medium (V4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="70"/>
+        <location filename="../src/config.hpp" line="72"/>
         <source>VBR High (V2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="71"/>
+        <location filename="../src/config.hpp" line="73"/>
         <source>VBR Extreme (V0)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="72"/>
+        <location filename="../src/config.hpp" line="74"/>
         <source>CBR 128 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="73"/>
+        <location filename="../src/config.hpp" line="75"/>
         <source>CBR 192 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="74"/>
+        <location filename="../src/config.hpp" line="76"/>
         <source>CBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="75"/>
+        <location filename="../src/config.hpp" line="77"/>
         <source>CBR 320 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -538,32 +543,32 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="139"/>
+        <location filename="../src/config.hpp" line="141"/>
         <source>VBR 64 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="140"/>
+        <location filename="../src/config.hpp" line="142"/>
         <source>VBR 96 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="141"/>
+        <location filename="../src/config.hpp" line="143"/>
         <source>VBR 128 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="142"/>
+        <location filename="../src/config.hpp" line="144"/>
         <source>VBR 160 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="143"/>
+        <location filename="../src/config.hpp" line="145"/>
         <source>VBR 192 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="144"/>
+        <location filename="../src/config.hpp" line="146"/>
         <source>VBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -611,17 +616,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="165"/>
+        <location filename="../src/config.hpp" line="167"/>
         <source>Don&apos;t encode ReplayGain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="166"/>
+        <location filename="../src/config.hpp" line="168"/>
         <source>Encode track gain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="167"/>
+        <location filename="../src/config.hpp" line="169"/>
         <source>Encode album gain</source>
         <translation type="unfinished"></translation>
     </message>
@@ -629,47 +634,52 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Sync</name>
     <message>
-        <location filename="../src/sync.cpp" line="45"/>
+        <location filename="../src/sync.cpp" line="44"/>
         <source>Scanning source directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="79"/>
+        <location filename="../src/sync.cpp" line="78"/>
         <source>Transcoding %1 file(s)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="168"/>
+        <location filename="../src/sync.cpp" line="150"/>
+        <source>TBD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sync.cpp" line="169"/>
         <source>Failed to transcode file &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="186"/>
+        <location filename="../src/sync.cpp" line="187"/>
         <source>Failed to copy file &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="199"/>
+        <location filename="../src/sync.cpp" line="256"/>
         <source>Copying %1 file(s)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="298"/>
+        <location filename="../src/sync.cpp" line="299"/>
         <source>Scanning destination directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="368"/>
+        <location filename="../src/sync.cpp" line="369"/>
         <source>Deleting %1 file(s) in destination directory...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="377"/>
+        <location filename="../src/sync.cpp" line="378"/>
         <source>Could not delete destination file &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sync.cpp" line="382"/>
+        <location filename="../src/sync.cpp" line="383"/>
         <source>Could not delete one or more empty subdirectories in destination</source>
         <translation type="unfinished"></translation>
     </message>

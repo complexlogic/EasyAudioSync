@@ -20,6 +20,9 @@ The program's design is inspired by the [rsync](https://github.com/WayneD/rsync)
 - Cross-platform Windows/macOS/Linux
 
 ## Screenshots
+![Main Window](https://github.com/complexlogic/EasyAudioSync/assets/95071366/e32beb0c-2f07-4b39-a75f-93ed6226c014)
+
+![Settings](https://github.com/complexlogic/EasyAudioSync/assets/95071366/9f4bcc67-995f-4f74-b533-13581e2bbd92)
 
 ## Installation
 

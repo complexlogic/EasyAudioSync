@@ -118,7 +118,7 @@ if (UNIX)
     install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     set (DATA_DIR "${CMAKE_INSTALL_PREFIX}/share")
     install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.desktop" DESTINATION "${DATA_DIR}/applications")
-    install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.metainfo.xml" DESTINATION "${DATA_DIR}/metainfo")
+    install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.appdata.xml" DESTINATION "${DATA_DIR}/metainfo")
     foreach (ICON_SIZE 48 64 128 256)
       install(FILES "${PROJECT_SOURCE_DIR}/assets/icons/${EXECUTABLE_NAME}${ICON_SIZE}.png"
         DESTINATION "${DATA_DIR}/icons/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps"
