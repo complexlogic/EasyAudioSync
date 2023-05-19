@@ -40,7 +40,28 @@ Separate builds are available for Intel and Apple Silicon based Macs (both requi
 - [Easy Audio Sync v1.0 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-arm64.dmg)
 
 ### Linux
+#### APT-based (Debian, Ubuntu)
+A .deb package is available on the release page. It was built on Ubuntu 22.04 and is compatible with the most recent release of most `apt`-based distros (anything that ships GCC 11 or later). Execute the following commands to install:
 
+```
+wget https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync_1.0_amd64.deb
+sudo apt install ./easyaudiosync_1.0_amd64.deb
+```
+
+#### Fedora
+A .rpm package is available on the release page that is compatible with Fedora 38 and later. Execute the following commands to install:
+
+```
+sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-1.x86_64.rpm
+```
+
+#### Arch/Majarjo
+A PKGBUILD script is available in the `config` directory to automate building and installation. Run the following commands from a clean directory:
+
+```
+wget https://raw.githubusercontent.com/complexlogic/EasyAudioSync/master/config/PKGBUILD
+makepkg -sic
+```
 ## Usage
 Easy Audio Sync operates based on a source folder and a destination folder, where the source folder contains the primary music library, and the destination folder is the desired output location. After selecting the source and destination folders, click the "Sync" button to start the sync. The program will recreate the source's entire subfolder structure in the destination, copying or transcoding files as specified in the settings. See the [settings documentation](docs/settings.md) for help on configuring the program's settings.
 
@@ -72,6 +93,21 @@ The following encoders are supported for transcoding:
 | AAC          | Fraunhofer FDK AAC, libavcodec |
 | Ogg Vorbis   | libvorbis                      |
 | Opus         | libopus                        |
+
+### General Tips
+This section gives usage tips for Easy Audio Sync
+
+#### Filesystem Differences
+If you run the program on Linux or Mac, have a destination folder that's on a removeable storage drive, and are getting transcoding errors, it may be because of filesystem incompatibilities. Most removable storage drives have Microsoft filesystems. In such filesystems, there are several illegal characters for paths that are allowable in Unix filesystems.
+
+The program will not remove the illegal characters for you, because there needs to be a one-to-one correspondence between source and destination file paths to support the "Clean Destination" feature. It is the user's responsibility to be aware of filesytem differences between the source and destination folders, and prepare accordingly. There are several tools that can rename files in your source directory such that they will be compatible with all major filesystems.
+
+#### Syncing to an Android Device
+The best way of syncing an Anroid device is to use a removable SD card. Physically remove the SD card from the device, connect it to your PC, perform the sync, then replace it in the device. This may be somewhat inconvenient, but it is the best possible option. Unfortunately, not all Android devices support removable SD cards, so this option may not be available to you.
+
+Most modern Android devies no longer support USB mass storage. The replacement is called Media Transfer Protocol (MTP). Easy Audio Sync does not include built-in support for MTP; it can only write to regular files. If you want to use the program with MTP, you will need to use it in combination with software that abstracts MTP and presents the device to the system as an ordinary storage drive, such as [go-mtpfs](https://github.com/hanwen/go-mtpfs) for Linux.
+
+In my experience, MTP is both slow and unreliable, and not worth using. If you can't use the SD card method, another option is to use a local directory on your PC as the destination, and then use a third party sync program to transfer the files to your device. A good option is [Syncthing](https://github.com/syncthing/syncthing). It supports network-based syncing, so you don't need to directly connect your device to your PC. The disadvantage of this method is that you will need to keep multiple versions of your music library on your PC, which uses more storage space.
 
 ## Support
 If you encounter any bugs, please open an issue on the issue tracker. For general help, use the Discussions page instead.
