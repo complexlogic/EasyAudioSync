@@ -111,8 +111,8 @@ jobs:
         uses: friendlyanon/setup-vcpkg@v1
         with:
           committish: ${{env.VCPKG_COMMITTISH}}
-          cache-key: vcpkg-macOS-${{matrix.config.OSX_ARCH}}
-          cache-restore-keys: vcpkg-macOS-${{matrix.config.OSX_ARCH}}
+          cache-key: vcpkg-macOS-${{matrix.config.OSX_ARCH}}-${{github.sha}}
+          cache-restore-keys: vcpkg-macOS-${{matrix.config.OSX_ARCH}}-
 
       - name: Setup Overlays
         uses: actions/checkout@v3
@@ -149,26 +149,80 @@ jobs:
           files: build/*.dmg
 
   build_linux:
-    name: Linux Flatpak
+    name: Linux
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        config:
+          - name: Ubuntu
+            docker_image: ubuntu:22.04
+            package_type: DEB
+            package_ext: .deb
+
+          - name: Fedora
+            docker_image: fedora:38
+            package_type: RPM
+            package_ext: .rpm
+
     env:
-      RUNTIME_VERSION: 5.15-22.08
+      VCPKG_TRIPLET: x64-linux
+      CMAKE_BUILD_TYPE: Release
+
+    container:
+      image: ${{matrix.config.docker_image}}
+
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v3
-        with:
-          path: EasyAudioSync
 
-      - name: Setup
+      - name: "Install dependencies"
         run: |
-          sudo apt update && sudo apt install -y flatpak flatpak-builder
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install -y runtime/org.kde.Sdk/x86_64/${{env.RUNTIME_VERSION}} runtime/org.kde.Platform/x86_64/${{env.RUNTIME_VERSION}}
+          if [[ "${{matrix.config.name}}" == "Ubuntu" ]]; then
+            export DEBIAN_FRONTEND=noninteractive
+            apt update && apt install -y curl zip unzip tar build-essential git cmake pkg-config python3 nasm qtbase5-dev qttools5-dev
+          fi
+          if [[ "${{matrix.config.name}}" == "Fedora" ]]; then
+            dnf install -y curl zip unzip tar git make pkg-config gcc-c++ fedora-packager rpmdevtools cmake nasm qt5-qtbase-devel qt5-qttools-devel
+          fi
+
+      - name: Setup vcpkg
+        uses: friendlyanon/setup-vcpkg@v1
+        with:
+          committish: ${{env.VCPKG_COMMITTISH}}
+          cache-key: vcpkg-${{matrix.config.name}}-${{github.sha}}
+          cache-restore-keys: vcpkg-${{matrix.config.name}}-
+
+      - name: Setup Overlays
+        uses: actions/checkout@v3
+        with:
+          repository: complexlogic/vcpkg
+          ref: refs/heads/easyaudiosync
+          path: build/overlays
+
+      - name: Configure
+        run: cmake -S . -B build 
+               -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+               -DVCPKG_TARGET_TRIPLET=${{env.VCPKG_TRIPLET}}
+               -DVCPKG_OVERLAY_PORTS=build/overlays/ports
+               -DCMAKE_BUILD_TYPE=${{env.CMAKE_BUILD_TYPE}}
+               -DCMAKE_INSTALL_PREFIX=/usr
+               -DSTRIP_BINARY=ON
+               -DQT_VERSION=5
+               -DPACKAGE=${{matrix.config.package_type}}
 
       - name: Build
-        run: |
-          cp EasyAudioSync/config/flatpak/* .
-          mkdir build
-          flatpak-builder --user --install build io.github.complexlogic.EasyAudioSync.yml
+        run: cmake --build build --target package
+
+      - name: Upload Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.config.name}} build
+          path: build/*${{matrix.config.package_ext}}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/*${{matrix.package_ext}}
+          token: ${{secrets.ACTIONS_SECRET}}

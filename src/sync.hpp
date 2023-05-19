@@ -1,6 +1,5 @@
 #pragma once
 
-#include <filesystem>
 #include <vector>
 #include <queue>
 #include <memory>
@@ -14,6 +13,8 @@
 #include <fmt/core.h>
 
 #include "transcode.hpp"
+
+#include <filesystem> // this has to come last to workaround Qt MOC bug
 
 class Application;
 struct Config;

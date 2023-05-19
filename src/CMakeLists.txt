@@ -118,7 +118,6 @@ if (UNIX)
     install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     set (DATA_DIR "${CMAKE_INSTALL_PREFIX}/share")
     install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.desktop" DESTINATION "${DATA_DIR}/applications")
-    install(FILES "${PROJECT_BINARY_DIR}/${RDNS_NAME}.appdata.xml" DESTINATION "${DATA_DIR}/metainfo")
     foreach (ICON_SIZE 48 64 128 256)
       install(FILES "${PROJECT_SOURCE_DIR}/assets/icons/${EXECUTABLE_NAME}${ICON_SIZE}.png"
         DESTINATION "${DATA_DIR}/icons/hicolor/${ICON_SIZE}x${ICON_SIZE}/apps"
@@ -129,6 +128,29 @@ if (UNIX)
       DESTINATION "${DATA_DIR}/icons/hicolor/scalable/apps"
       RENAME "${RDNS_NAME}.svg"
     )
+
+    if (PACKAGE)
+      set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_DESCRIPTION})
+      set(CPACK_PACKAGE_NAME ${EXECUTABLE_TITLE})
+      set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+      set(CPACK_GENERATOR ${PACKAGE})
+      if (PACKAGE STREQUAL "DEB")
+        set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "qtbase5, libc6 (>=2.29), libstdc++6 (>=10.2)")
+        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "complexlogic")
+        set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+        set(CPACK_DEBIAN_ARCHIVE_TYPE "gnutar")
+        set(CPACK_DEBIAN_COMPRESSION_TYPE "gzip")
+        set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+      elseif (PACKAGE STREQUAL "RPM")
+        set(CPACK_RPM_FILE_NAME "RPM-DEFAULT")
+        set(CPACK_RPM_PACKAGE_LICENSE "BSD")
+        set(CPACK_RPM_PACKAGE_GROUP "Applications/Multimedia")
+        set(CPACK_RPM_PACKAGE_AUTOREQPROV 0)
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase, glibc >= 2.37, libstdc++ >= 13.1")
+      endif ()
+      include(CPack)
+    endif ()
   endif ()
 
 # Windows build

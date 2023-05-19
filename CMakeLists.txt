@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.19)
 option(VCPKG "Build dependencies with vcpkg" OFF)
 if (VCPKG)
   include("${CMAKE_SOURCE_DIR}/cmake/vcpkg.cmake")
@@ -114,7 +114,6 @@ endif()
 # Linux desktop and appstream
 if (UNIX AND NOT APPLE)
   configure_file("${PROJECT_SOURCE_DIR}/config/${EXECUTABLE_NAME}.desktop.in" "${PROJECT_BINARY_DIR}/${RDNS_NAME}.desktop")
-  configure_file("${PROJECT_SOURCE_DIR}/config/appdata.xml.in" "${PROJECT_BINARY_DIR}/${RDNS_NAME}.appdata.xml")
 endif ()
 
 add_subdirectory(src)
