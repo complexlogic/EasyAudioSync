@@ -100,7 +100,7 @@ If [Copy Metadata](#copy-metadata) is enabled, this setting controls the version
 ### AAC
 The settings in this section pertain to transcoding AAC files.
 
-There are two AAC encoders available: Fraunhofer FDK AAC and libavcodec AAC. Fraunhofer FDK AAC is superior to libavcodec AAC in both quality and speed, and you should use it if it's available to you. The reason libavcodec AAC is supported is because Fraunhofer FDK AAC is less widely available due to legal uncertainties over the Fraunhofer Society's patent assertions. Despite this, the official Windows and macOS builds as well as the Linux Flatpak all include support for the Fraunhofer FDK AAC encoder.
+There are two AAC encoders available: Fraunhofer FDK AAC and libavcodec AAC. Fraunhofer FDK AAC is superior to libavcodec AAC in both quality and speed, and you should use it if it's available to you. The reason libavcodec AAC is supported is because Fraunhofer FDK AAC is less widely available due to legal uncertainties over the Fraunhofer Society's patent assertions. Despite this, the official Windows and macOS builds as well as the Linux packages all include support for the Fraunhofer FDK AAC encoder.
 
 All transcoded AAC files will be of Low Complexity object type (AAC-LC), regardless of the encoder or preset chosen.
 

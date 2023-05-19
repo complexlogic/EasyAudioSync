@@ -19,7 +19,7 @@ Easy Audio Sync builds natively on Unix and Windows, and features a cross-platfo
 The source code is written in C++20, and as such requires a relatively modern compiler to build:
 
 - On Windows, use Visual Studio 2022
-- On Linux, use GCC 10 or later
+- On Linux, use GCC 11 or later
 - On macOS, the latest available Xcode for your machine should work
 
 ### Qt Version Requirements
