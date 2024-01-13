@@ -655,10 +655,11 @@ bool Metadata::write_tags(TagLib::Ogg::XiphComment *tag)
     if (date)
         tag->addField("DATE", FORMAT_DATE(date));
 
-    for (const auto& [key, value] : tag_map) {
+    for (const auto& [key, value_list] : tag_map) {
         try {
             const auto vorbis_tag = supported_tags.at(key).vorbis;
-            tag->addField(vorbis_tag, value.toString());
+            for (auto &value : value_list)
+                tag->addField(vorbis_tag, value, false);
         }
         catch (...) {}
     }
