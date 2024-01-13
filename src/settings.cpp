@@ -370,10 +370,10 @@ void SettingsOpus::load(const Config &config)
 void SettingsOpus::save(Config &config, QSettings &settings)
 {
     config.opus.preset.set(opus_preset_box->currentIndex());
-    settings.value("opus_preset", config.opus.preset.get_current_key());
+    settings.setValue("opus_preset", config.opus.preset.get_current_key());
     bool ext_opus = opus_ext_opus_button->isChecked();
     config.opus.ext = ext_opus ? ".opus" : ".ogg";
-    settings.value("opus_ext", ext_opus ? ".opus" : ".ogg");
+    settings.setValue("opus_ext", ext_opus ? ".opus" : ".ogg");
     save_checkbox("opus_convert_r128", config.opus.convert_r128, opus_convert_r128_box, settings);
     config.opus.r128_adjustment = opus_r128_adjustment_box->value();
     settings.setValue("opus_r128_adjustment", config.opus.r128_adjustment);
