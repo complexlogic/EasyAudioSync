@@ -30,7 +30,7 @@ permissions:
   statuses: read
 
 env:
-  VCPKG_COMMITTISH: acf66d284e432e63f286610504b31e1700d2e124
+  VCPKG_COMMITTISH: 53bef8994c541b6561884a8395ea35715ece75db
 
 jobs:
   build_windows:
@@ -156,12 +156,12 @@ jobs:
       matrix:
         config:
           - name: Ubuntu
-            docker_image: ubuntu:22.04
+            docker_image: ubuntu:23.10
             package_type: DEB
             package_ext: .deb
 
           - name: Fedora
-            docker_image: fedora:38
+            docker_image: fedora:39
             package_type: RPM
             package_ext: .rpm
 

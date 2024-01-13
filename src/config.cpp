@@ -39,7 +39,6 @@ std::pair<Action, Codec> Config::get_file_handling(const std::filesystem::path &
         file_handling.cend(),
         [&](const auto &i){return i.in_codec == in_codec; }
     );
-    assert(it != file_handling.end());
     return it == file_handling.end() ? std::make_pair(Action::COPY, Codec::NONE) : std::make_pair(it->action, it->out_codec);
 }
 

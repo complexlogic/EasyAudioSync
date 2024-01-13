@@ -438,8 +438,10 @@ bool Transcoder::decode_to_fifo(bool &finished)
     while (!has_frame && !finished) {
         if (has_pkts) {
             error = av_read_frame(in_file.fmt_ctx, pkt);
-            if (error == AVERROR_EOF)
+            if (error == AVERROR_EOF) {
                 has_pkts = false;
+                finished = true;
+            }
             if (pkt->stream_index != in_file.stream_id) {
                 av_packet_unref(pkt);
                 continue;
@@ -455,8 +457,8 @@ bool Transcoder::decode_to_fifo(bool &finished)
                 error = avcodec_receive_frame(in_file.codec_ctx, frame);
                 if (!error)
                     has_frame = true;
-                else if (error == AVERROR_EOF)
-                    finished = true;
+                else if (error < 0)
+                    goto end;
             }
         } while(again);
         av_packet_unref(pkt);
@@ -651,14 +653,13 @@ bool Transcoder::transcode()
     }
 
     // Begin transcoding
-    while(1) {
+    while (1) {
         const int out_frame_size = out_file.codec_ctx->frame_size;
 
         // Decode into FIFO buffer
-        while(av_audio_fifo_size(fifo) < out_frame_size && !finished) {
-            if(!decode_to_fifo(finished))
-                return false;
-        }
+        while (av_audio_fifo_size(fifo) < out_frame_size && !finished)
+            decode_to_fifo(finished);
+
         
         // Encode from FIFO buffer
         while (av_audio_fifo_size(fifo) >= out_frame_size 
