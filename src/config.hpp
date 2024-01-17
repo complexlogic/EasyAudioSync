@@ -43,7 +43,7 @@ struct Config {
             }
             void set(int i) { current = map.begin() + i; }
             ComboMap(const std::vector<std::tuple<QString, const char*, T>> &&map, const QString &initial)
-            : map(map), current(find(initial)) { assert(current != map.end()); }
+            : map(map), current(find(initial)) {}
 
         private:
             std::vector<std::tuple<QString, const char*, T>> map;

@@ -499,7 +499,7 @@ void Metadata::parse_date(const TagLib::ID3v2::Tag *tag, std::unique_ptr<std::tm
 
     for (const auto &id : frame_ids) {
         const auto it = map.find(id);
-        if (it == map.end())
+        if (it == map.end() || it->second.isEmpty())
             continue;
         auto frame = dynamic_cast<TagLib::ID3v2::TextIdentificationFrame*>(it->second.front());
         if (frame)

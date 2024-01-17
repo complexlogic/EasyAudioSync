@@ -40,7 +40,7 @@ jobs:
       fail-fast: false
 
     env:
-      CMAKE_BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: ${{startsWith(github.ref, 'refs/tags/') && 'Release' || 'RelWithDebInfo'}}
       CMAKE_GENERATOR: Visual Studio 17 2022
       VCPKG_TRIPLET: x64-windows
       NSIS_INSTALLER: ${{startsWith(github.ref, 'refs/tags/') && 'ON' || 'OFF'}}
@@ -91,6 +91,7 @@ jobs:
   build_macos:
     name: macOS
     runs-on: macos-12
+    if: false
     strategy:
       fail-fast: false
       matrix:

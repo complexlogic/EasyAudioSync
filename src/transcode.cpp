@@ -91,7 +91,7 @@ bool Transcoder::OutputFile::open(Codec out_codec, const InputFile &in_file, con
         }
     }
     int error;
-    if ((error = avio_open(&io_ctx, path.string().c_str(), AVIO_FLAG_WRITE)) < 0) {
+    if ((error = avio_open(&io_ctx, fmt::format("file:{}", path.string()).c_str(), AVIO_FLAG_WRITE)) < 0) {
         transcoder->ffmpeg_error(error, "Could not open output IO context at '{}'", path.string());
         return false;
     }
