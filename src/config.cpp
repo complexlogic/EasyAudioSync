@@ -124,6 +124,7 @@ void Config::load(const QSettings &settings)
 
     // Transcoding
     copy_metadata = settings.value("copy_metadata", copy_metadata).toBool();
+    extended_tags = settings.value("extended_tags", extended_tags).toBool();
     copy_artwork = settings.value("copy_artwork", copy_artwork).toBool();
     downsample_hi_res = settings.value("downsample_hi_res", downsample_hi_res).toBool();
     downmix_multichannel = settings.value("downsample_hi_res", downmix_multichannel).toBool();

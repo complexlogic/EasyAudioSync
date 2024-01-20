@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <filesystem>
 #include <algorithm>
 #include <string.h>
@@ -55,90 +56,96 @@
 */
 
 static const std::unordered_map<std::string, Metadata::Tag> supported_tags = {
-    {"acoustid_id", {{{"TXXX", ""}, {"Acoustid Id"}}, "ACOUSTID_ID", "ACOUSTID_ID", {ITUNES_ATOM "Acoustid Id"}}},
-    {"acoustid_fingerprint", {{{"TXXX", ""}, {"Acoustid Fingerprint"}}, "ACOUSTID_FINGERPRINT", "ACOUSTID_FINGERPRINT", {ITUNES_ATOM "Acoustid Fingerprint"}}},
-    {"album", {{{"TALB", ""}, {}}, "ALBUM", "Album", {"\251alb"}}},
-    {"albumartist", {{{"TPE2", ""}, {}}, "ALBUMARTIST", "Album Artist", {"aART"}}},
-    {"albumartistsort", {{{"TSO2", ""}, {}}, "ALBUMARTISTSORT", "ALBUMARTISTSORT", {"soaa"}}},
-    {"arranger", {{{"IPLS", "TIPL"}, {"arranger"}}, "ARRANGER", "Arranger", {}}},
-    {"artist", {{{"TPE1", ""}, {}}, "ARTIST", "Artist", {"\251ART"}}},
-    {"artistsort", {{{"TSOP", ""}, {}}, "ARTISTSORT", "ARTISTSORT", {"soar"}}},
-    {"artists", {{{"TXXX", ""}, {"ARTISTS"}}, "ARTISTS", "Artists", {ITUNES_ATOM "ARTISTS"}}},
-    {"asin", {{{"TXXX", ""}, {"ASIN"}}, "ASIN", "ASIN", {ITUNES_ATOM "ASIN"}}},
-    {"barcode", {{{"TXXX", ""}, {"BARCODE"}}, "BARCODE", "Barcode", {ITUNES_ATOM "BARCODE"}}},
-    {"bpm", {{{"TBPM", ""}, {}}, "BPM", "BPM", {"tmpo"}}},
-    {"catalognumber", {{{"TXXX", ""}, {"CATALOGNUMBER"}}, "CATALOGNUMBER", "CatalogNumber", {ITUNES_ATOM "CATALOGNUMBER"}}},
-    {"comment", {{{"COMM", ""}, {"description"}}, "COMMENT", "Comment", {"\251cmt"}}},
-    {"compilation", {{{"TCMP", ""}, {}}, "COMPILATION", "Compilation", {"cpil"}}},
-    {"composer", {{{"TCOM", ""}, {}}, "COMPOSER", "Composer", {"\251wrt"}}},
-    {"composersort", {{{"TSOC", ""}, {}}, "COMPOSERSORT", "COMPOSERSORT", {"soco"}}},
-    {"conductor", {{{"TPE3", ""}, {}}, "CONDUCTOR", "Conductor", {ITUNES_ATOM "CONDUCTOR"}}},
-    {"copyright", {{{"TCOP", ""}, {}}, "COPYRIGHT", "Copyright", {"cprt"}}},
-    {"director", {{{"TXXX", ""}, {"DIRECTOR"}}, "DIRECTOR", "Director", {"\251dir"}}},
-    {"discsubtitle", {{{"", "TSST"}, {}}, "DISCSUBTITLE", "DiscSubtitle", {ITUNES_ATOM "DISCSUBTITLE"}}},
-    {"engineer", {{{"IPLS", "TIPL"}, {"engineer"}}, "ENGINEER", "Engineer", {ITUNES_ATOM "ENGINEER"}}},
-    {"gapless", {{{"", ""}, {}}, "", "", {"pgap"}}},
-    {"genre", {{{"TCON", ""}, {}}, "GENRE", "Genre", {"\251gen"}}},
-    {"grouping", {{{"TIT1", ""}, {}}, "GROUPING", "Grouping", {"\251grp"}}},
-    {"key", {{{"TKEY", ""}, {}}, "KEY", "KEY", {ITUNES_ATOM "initialkey"}}},
-    {"language", {{{"TLAN", ""}, {}}, "LANGUAGE", "Language", {ITUNES_ATOM "LANGUAGE"}}},
-    {"license", {{{"WCOP", ""}, {}}, "LICENSE", "LICENSE", {ITUNES_ATOM "LICENSE"}}},
-    {"lyricist", {{{"TEXT", ""}, {}}, "LYRICIST", "Lyricist", {ITUNES_ATOM "LYRICIST"}}},
-    {"lyrics", {{{"USLT", ""}, {}}, "LYRICS", "Lyrics", {"\251lyr"}}},
-    {"media", {{{"TMED", ""}, {}}, "MEDIA", "Media", {ITUNES_ATOM "MEDIA"}}},
-    {"djmixer", {{{"IPLS", "TIPL"}, {"DJ-mix"}}, "DJMIXER", "DJMixer", {ITUNES_ATOM "DJMIXER"}}},
-    {"mixer", {{{"IPLS", "TIPL"}, {"mix"}}, "MIXER", "Mixer", {ITUNES_ATOM "MIXER"}}},
-    {"mood", {{{"", "TMOO"}, {}}, "MOOD", "Mood", {ITUNES_ATOM "MOOD"}}},
-    {"movement", {{{"MVNM", ""}, {}}, "MOVEMENTNAME", "MOVEMENTNAME", {"\251mvn"}}},
-    {"movementotal", {{{"MVIM", ""}, {}}, "MOVEMENTTOTAL", "MOVEMENTTOTAL", {"mvc"}}},
-    {"movementnumber", {{{"MVIN", ""}, {}}, "MOVEMENT", "MOVEMENT", {"mvi"}}},
-    {"musicbrainz_artistid", {{{"TXXX", ""}, {"MusicBrainz Artist Id"}}, "MUSICBRAINZ_ARTISTID", "MUSICBRAINZ_ARTISTID", {ITUNES_ATOM "MusicBrainz Artist Id"}}},
-    {"musicbrainz_discid", {{{"TXXX", ""}, {"MusicBrainz Disc Id"}}, "MUSICBRAINZ_DISCID", "MUSICBRAINZ_DISCID", {ITUNES_ATOM "MusicBrainz Disc Id"}}},
-    {"musicbrainz_originalartistid", {{{"TXXX", ""}, {"MusicBrainz Original Artist Id"}}, "MUSICBRAINZ_ORIGINALARTISTID", "MUSICBRAINZ_ORIGINALARTISTID", {ITUNES_ATOM "MusicBrainz Original Artist Id"}}},
-    {"musicbrainz_originalreleaseid", {{{"TXXX", ""}, {"MusicBrainz Original Release Id"}}, "MUSICBRAINZ_ORIGINALRELEASEID", "MUSICBRAINZ_ORIGINALRELEASEID", {ITUNES_ATOM "MusicBrainz Original Release Id"}}},
-    {"musicbrainz_recordingid", {{{"UFID", ""}, {"http://musicbrainz.org"}}, "MUSICBRAINZ_TRACKID", "MUSICBRAINZ_TRACKID", {ITUNES_ATOM "MusicBrainz Track Id"}}},
-    {"musicbrainz_albumartistid", {{{"TXXX", ""}, {"MusicBrainz Album Artist Id"}}, "MUSICBRAINZ_ALBUMARTISTID", "MUSICBRAINZ_ALBUMARTISTID", {ITUNES_ATOM "MusicBrainz Album Artist Id"}}},
-    {"musicbrainz_releasegroupid", {{{"TXXX", ""}, {"MusicBrainz Release Group Id"}}, "MUSICBRAINZ_RELEASEGROUPID", "MUSICBRAINZ_RELEASEGROUPID", {ITUNES_ATOM "MusicBrainz Release Group Id"}}},
-    {"musicbrainz_albumid", {{{"TXXX", ""}, {"MusicBrainz Album Id"}}, "MUSICBRAINZ_ALBUMID", "MUSICBRAINZ_ALBUMID", {ITUNES_ATOM "MusicBrainz Album Id"}}},
-    {"musicbrainz_trackid", {{{"TXXX", ""}, {"MusicBrainz Release Track Id"}}, "MUSICBRAINZ_RELEASETRACKID", "MUSICBRAINZ_RELEASETRACKID", {ITUNES_ATOM "MusicBrainz Release Track Id"}}},
-    {"musicbrainz_workid", {{{"TXXX", ""}, {"MusicBrainz Work Id"}}, "MUSICBRAINZ_WORKID", "MUSICBRAINZ_WORKID", {ITUNES_ATOM "MusicBrainz Work Id"}}},
-    {"musicip_fingerprint", {{{"TXXX", ""}, {"MusicMagic Fingerprint"}}, "FINGERPRINT", "", {ITUNES_ATOM "fingerprint"}}},
-    {"musicip_puid", {{{"TXXX", ""}, {"MusicIP PUID"}}, "MUISCIP_PUID", "MUSICIP_PUID", {ITUNES_ATOM "MusicIP_PUID"}}},
-    {"originalalbum", {{{"TOAL", ""}, {}}, "", "", {}}},
-    {"originalartist", {{{"TOPE", ""}, {}}, "", "Original Artist", {}}},
-    {"originaldate", {{{"TORY", "TDOR"}, {}}, "ORIGINALDATE", "", {}}},
-    {"originalyear", {{{"", ""}, {}}, "ORIGINALYEAR", "ORIGINALYEAR", {}}},
-    {"performer", {{{"IPLS", "TCML"}, {"instrument"}}, "PERFORMER", "Performer", {}}},
-    {"podcast", {{{"", ""}, {}}, "", "", {"pcst"}}},
-    {"podcasturl", {{{"", ""}, {}}, "", "", {"purl"}}},
-    {"producer", {{{"IPLS", "TCML"}, {"producer"}}, "PRODUCER", "Producer", {ITUNES_ATOM "PRODUCER"}}},
-    {"label", {{{"TPUB", ""}, {}}, "LABEL", "Label", {ITUNES_ATOM "LABEL"}}},
-    {"releasecountry", {{{"TXXX", ""}, {"MusicBrainz Album Release Country"}}, "RELEASECOUNTRY", "RELEASECOUNTRY", {ITUNES_ATOM "MusicBrainz Album Release Country"}}},
-    {"releasestatus", {{{"TXXX", ""}, {"MusicBrainz Album Status"}}, "RELEASESTATUS", "MUSICBRAINZ_ALBUMSTATUS", {ITUNES_ATOM "MusicBrainz Album Status"}}},
-    {"releasetype", {{{"TXXX", ""}, {"MusicBrainz Album Type"}}, "RELEASETYPE", "MUSICBRAINZ_ALBUMTYPE", {ITUNES_ATOM "MusicBrainz Album Type"}}},
-    {"remixer", {{{"TPE4", ""}, {}}, "REMIXER", "MixArtist", {ITUNES_ATOM "REMIXER"}}},
-    {"r128_track_gain", {{{"", ""}, {}}, "R128_TRACK_GAIN", "", {}}},
-    {"r128_album_gain", {{{"", ""}, {}}, "R128_ALBUM_GAIN", "", {}}},
-    {"replaygain_album_gain", {{{"TXXX", ""}, {"REPLAYGAIN_ALBUM_GAIN", "replaygain_album_gain"}}, "REPLAYGAIN_ALBUM_GAIN", "REPLAYGAIN_ALBUM_GAIN", {ITUNES_ATOM "REPLAYGAIN_ALBUM_GAIN", ITUNES_ATOM "replaygain_album_gain"}}},
-    {"replaygain_album_peak", {{{"TXXX", ""}, {"REPLAYGAIN_ALBUM_PEAK", "replaygain_album_peak"}}, "REPLAYGAIN_ALBUM_PEAK", "REPLAYGAIN_ALBUM_PEAK", {ITUNES_ATOM "REPLAYGAIN_ALBUM_PEAK", ITUNES_ATOM "replaygain_album_peak"}}},
-    {"replaygain_track_gain", {{{"TXXX", ""}, {"REPLAYGAIN_TRACK_GAIN", "replaygain_track_gain"}}, "REPLAYGAIN_TRACK_GAIN", "REPLAYGAIN_TRACK_GAIN", {ITUNES_ATOM "REPLAYGAIN_TRACK_GAIN", ITUNES_ATOM "replaygain_track_gain"}}},
-    {"replaygain_track_peak", {{{"TXXX", ""}, {"REPLAYGAIN_TRACK_PEAK", "replaygain_track_peak"}}, "REPLAYGAIN_TRACK_PEAK", "REPLAYGAIN_TRACK_PEAK", {ITUNES_ATOM "REPLAYGAIN_TRACK_PEAK", ITUNES_ATOM "replaygain_track_peak"}}},
-    {"script", {{{"TXXX", ""}, {"SCRIPT"}}, "SCRIPT", "Script", {ITUNES_ATOM "SCRIPT"}}},
-    {"show", {{{"", ""}, {}}, "", "", {"tvsh"}}},
-    {"showsort", {{{"", ""}, {}}, "", "", {"sosn"}}},
-    {"showmovement", {{{"TXXX", ""}, {"SHOWMOVEMENT"}}, "SHOWMOVEMENT", "SHOWMOVEMENT", {ITUNES_ATOM "shwm"}}},
-    {"subtitle", {{{"TIT3", ""}, {}}, "SUBTITLE", "Subtitle", {ITUNES_ATOM "SUBTITLE"}}},
-    {"title", {{{"TIT2", ""}, {}}, "TITLE", "Title", {"\251nam"}}},
-    {"titlesort", {{{"TSOT", ""}, {}}, "TITLESORT", "TITLESORT", {"sonm"}}},
-    {"website", {{{"WOAR", ""}, {}}, "WEBSITE", "Weblink", {}}},
-    {"work", {{{"TIT1", ""}, {}}, "WORK", "WORK", {"\251wrk"}}},
-    {"writer", {{{"TXXX", ""}, {"Writer"}}, "WRITER", "Writer", {}}}
+    {"acoustid_id", {{{"TXXX", ""}, {"Acoustid Id"}}, "ACOUSTID_ID", {"ACOUSTID_ID"}, {ITUNES_ATOM "Acoustid Id"}}},
+    {"acoustid_fingerprint", {{{"TXXX", ""}, {"Acoustid Fingerprint"}}, "ACOUSTID_FINGERPRINT", {"ACOUSTID_FINGERPRINT"}, {ITUNES_ATOM "Acoustid Fingerprint"}}},
+    {"album", {{{"TALB", ""}, {}}, "ALBUM", {"Album"}, {"\251alb"}}},
+    {"albumartist", {{{"TPE2", ""}, {}}, "ALBUMARTIST", {"Album Artist", "ALBUM_ARTIST"}, {"aART"}}},
+    {"albumartistsort", {{{"TSO2", ""}, {}}, "ALBUMARTISTSORT", {"ALBUMARTISTSORT"}, {"soaa"}}},
+    {"arranger", {{{"IPLS", "TIPL"}, {"arranger"}}, "ARRANGER", {"Arranger"}, {}}},
+    {"artist", {{{"TPE1", ""}, {}}, "ARTIST", {"Artist"}, {"\251ART"}}},
+    {"artistsort", {{{"TSOP", ""}, {}}, "ARTISTSORT", {"ARTISTSORT"}, {"soar"}}},
+    {"artists", {{{"TXXX", ""}, {"ARTISTS"}}, "ARTISTS", {"Artists"}, {ITUNES_ATOM "ARTISTS"}}},
+    {"asin", {{{"TXXX", ""}, {"ASIN"}}, "ASIN", {"ASIN"}, {ITUNES_ATOM "ASIN"}}},
+    {"barcode", {{{"TXXX", ""}, {"BARCODE"}}, "BARCODE", {"Barcode"}, {ITUNES_ATOM "BARCODE"}}},
+    {"bpm", {{{"TBPM", ""}, {}}, "BPM", {"BPM"}, {"tmpo"}}},
+    {"catalognumber", {{{"TXXX", ""}, {"CATALOGNUMBER"}}, "CATALOGNUMBER", {"CatalogNumber"}, {ITUNES_ATOM "CATALOGNUMBER"}}},
+    {"comment", {{{"COMM", ""}, {"description"}}, "COMMENT", {"Comment"}, {"\251cmt"}}},
+    {"compilation", {{{"TCMP", ""}, {}}, "COMPILATION", {"Compilation"}, {"cpil"}}},
+    {"composer", {{{"TCOM", ""}, {}}, "COMPOSER", {"Composer"}, {"\251wrt"}}},
+    {"composersort", {{{"TSOC", ""}, {}}, "COMPOSERSORT", {"COMPOSERSORT"}, {"soco"}}},
+    {"conductor", {{{"TPE3", ""}, {}}, "CONDUCTOR", {"Conductor"}, {ITUNES_ATOM "CONDUCTOR"}}},
+    {"copyright", {{{"TCOP", ""}, {}}, "COPYRIGHT", {"Copyright"}, {"cprt"}}},
+    {"director", {{{"TXXX", ""}, {"DIRECTOR"}}, "DIRECTOR", {"Director"}, {"\251dir"}}},
+    {"discsubtitle", {{{"", "TSST"}, {}}, "DISCSUBTITLE", {"DiscSubtitle"}, {ITUNES_ATOM "DISCSUBTITLE"}}},
+    {"engineer", {{{"IPLS", "TIPL"}, {"engineer"}}, "ENGINEER", {"Engineer"}, {ITUNES_ATOM "ENGINEER"}}},
+    {"gapless", {{{"", ""}, {}}, "", {}, {"pgap"}}},
+    {"genre", {{{"TCON", ""}, {}}, "GENRE", {"Genre"}, {"\251gen"}}},
+    {"grouping", {{{"TIT1", ""}, {}}, "GROUPING", {"Grouping"}, {"\251grp"}}},
+    {"isrc", {{{"TSRC", ""}, {}}, "ISRC", {"ISRC"}, {ITUNES_ATOM "ISRC"}}},
+    {"key", {{{"TKEY", ""}, {}}, "KEY", {"KEY"}, {ITUNES_ATOM "initialkey"}}},
+    {"language", {{{"TLAN", ""}, {}}, "LANGUAGE", {"Language"}, {ITUNES_ATOM "LANGUAGE"}}},
+    {"license", {{{"WCOP", ""}, {}}, "LICENSE", {"LICENSE"}, {ITUNES_ATOM "LICENSE"}}},
+    {"lyricist", {{{"TEXT", ""}, {}}, "LYRICIST", {"Lyricist"}, {ITUNES_ATOM "LYRICIST"}}},
+    {"lyrics", {{{"USLT", ""}, {}}, "LYRICS", {"Lyrics"}, {"\251lyr"}}},
+    {"media", {{{"TMED", ""}, {}}, "MEDIA", {"Media"}, {ITUNES_ATOM "MEDIA"}}},
+    {"djmixer", {{{"IPLS", "TIPL"}, {"DJ-mix"}}, "DJMIXER", {"DJMixer"}, {ITUNES_ATOM "DJMIXER"}}},
+    {"mixer", {{{"IPLS", "TIPL"}, {"mix"}}, "MIXER", {"Mixer"}, {ITUNES_ATOM "MIXER"}}},
+    {"mood", {{{"", "TMOO"}, {}}, "MOOD", {"Mood"}, {ITUNES_ATOM "MOOD"}}},
+    {"movement", {{{"MVNM", ""}, {}}, "MOVEMENTNAME", {"MOVEMENTNAME"}, {"\251mvn"}}},
+    {"movementotal", {{{"MVIM", ""}, {}}, "MOVEMENTTOTAL", {"MOVEMENTTOTAL"}, {"mvc"}}},
+    {"movementnumber", {{{"MVIN", ""}, {}}, "MOVEMENT", {"MOVEMENT"}, {"mvi"}}},
+    {"musicbrainz_artistid", {{{"TXXX", ""}, {"MusicBrainz Artist Id"}}, "MUSICBRAINZ_ARTISTID", {"MUSICBRAINZ_ARTISTID"}, {ITUNES_ATOM "MusicBrainz Artist Id"}}},
+    {"musicbrainz_discid", {{{"TXXX", ""}, {"MusicBrainz Disc Id"}}, "MUSICBRAINZ_DISCID", {"MUSICBRAINZ_DISCID"}, {ITUNES_ATOM "MusicBrainz Disc Id"}}},
+    {"musicbrainz_originalartistid", {{{"TXXX", ""}, {"MusicBrainz Original Artist Id"}}, "MUSICBRAINZ_ORIGINALARTISTID", {"MUSICBRAINZ_ORIGINALARTISTID"}, {ITUNES_ATOM "MusicBrainz Original Artist Id"}}},
+    {"musicbrainz_originalreleaseid", {{{"TXXX", ""}, {"MusicBrainz Original Release Id"}}, "MUSICBRAINZ_ORIGINALRELEASEID", {"MUSICBRAINZ_ORIGINALRELEASEID"}, {ITUNES_ATOM "MusicBrainz Original Release Id"}}},
+    {"musicbrainz_recordingid", {{{"UFID", ""}, {"http://musicbrainz.org"}}, "MUSICBRAINZ_TRACKID", {"MUSICBRAINZ_TRACKID"}, {ITUNES_ATOM "MusicBrainz Track Id"}}},
+    {"musicbrainz_albumartistid", {{{"TXXX", ""}, {"MusicBrainz Album Artist Id"}}, "MUSICBRAINZ_ALBUMARTISTID", {"MUSICBRAINZ_ALBUMARTISTID"}, {ITUNES_ATOM "MusicBrainz Album Artist Id"}}},
+    {"musicbrainz_releasegroupid", {{{"TXXX", ""}, {"MusicBrainz Release Group Id"}}, "MUSICBRAINZ_RELEASEGROUPID", {"MUSICBRAINZ_RELEASEGROUPID"}, {ITUNES_ATOM "MusicBrainz Release Group Id"}}},
+    {"musicbrainz_albumid", {{{"TXXX", ""}, {"MusicBrainz Album Id"}}, "MUSICBRAINZ_ALBUMID", {"MUSICBRAINZ_ALBUMID"}, {ITUNES_ATOM "MusicBrainz Album Id"}}},
+    {"musicbrainz_trackid", {{{"TXXX", ""}, {"MusicBrainz Release Track Id"}}, "MUSICBRAINZ_RELEASETRACKID", {"MUSICBRAINZ_RELEASETRACKID"}, {ITUNES_ATOM "MusicBrainz Release Track Id"}}},
+    {"musicbrainz_workid", {{{"TXXX", ""}, {"MusicBrainz Work Id"}}, "MUSICBRAINZ_WORKID", {"MUSICBRAINZ_WORKID"}, {ITUNES_ATOM "MusicBrainz Work Id"}}},
+    {"musicip_fingerprint", {{{"TXXX", ""}, {"MusicMagic Fingerprint"}}, "FINGERPRINT", {}, {ITUNES_ATOM "fingerprint"}}},
+    {"musicip_puid", {{{"TXXX", ""}, {"MusicIP PUID"}}, "MUISCIP_PUID", {"MUSICIP_PUID"}, {ITUNES_ATOM "MusicIP_PUID"}}},
+    {"originalalbum", {{{"TOAL", ""}, {}}, "", {}, {}}},
+    {"originalartist", {{{"TOPE", ""}, {}}, "", {"Original Artist"}, {}}},
+    {"originaldate", {{{"TORY", "TDOR"}, {}}, "ORIGINALDATE", {}, {}}},
+    {"originalyear", {{{"", ""}, {}}, "ORIGINALYEAR", {"ORIGINALYEAR"}, {}}},
+    {"performer", {{{"IPLS", "TCML"}, {"instrument"}}, "PERFORMER", {"Performer"}, {}}},
+    {"podcast", {{{"", ""}, {}}, "", {}, {"pcst"}}},
+    {"podcasturl", {{{"", ""}, {}}, "", {}, {"purl"}}},
+    {"producer", {{{"IPLS", "TCML"}, {"producer"}}, "PRODUCER", {"Producer"}, {ITUNES_ATOM "PRODUCER"}}},
+    {"label", {{{"TPUB", ""}, {}}, "LABEL", {"Label"}, {ITUNES_ATOM "LABEL"}}},
+    {"releasecountry", {{{"TXXX", ""}, {"MusicBrainz Album Release Country"}}, "RELEASECOUNTRY", {"RELEASECOUNTRY"}, {ITUNES_ATOM "MusicBrainz Album Release Country"}}},
+    {"releasestatus", {{{"TXXX", ""}, {"MusicBrainz Album Status"}}, "RELEASESTATUS", {"RELEASESTATUS"}, {ITUNES_ATOM "MusicBrainz Album Status"}}},
+    {"releasetype", {{{"TXXX", ""}, {"MusicBrainz Album Type"}}, "RELEASETYPE", {"RELEASETYPE"}, {ITUNES_ATOM "MusicBrainz Album Type"}}},
+    {"remixer", {{{"TPE4", ""}, {}}, "REMIXER", {"MixArtist"}, {ITUNES_ATOM "REMIXER"}}},
+    {"r128_track_gain", {{{"", ""}, {}}, "R128_TRACK_GAIN", {}, {}}},
+    {"r128_album_gain", {{{"", ""}, {}}, "R128_ALBUM_GAIN", {}, {}}},
+    {"replaygain_album_gain", {{{"TXXX", ""}, {"REPLAYGAIN_ALBUM_GAIN", "replaygain_album_gain"}}, "REPLAYGAIN_ALBUM_GAIN", {"REPLAYGAIN_ALBUM_GAIN"}, {ITUNES_ATOM "REPLAYGAIN_ALBUM_GAIN", ITUNES_ATOM "replaygain_album_gain"}}},
+    {"replaygain_album_peak", {{{"TXXX", ""}, {"REPLAYGAIN_ALBUM_PEAK", "replaygain_album_peak"}}, "REPLAYGAIN_ALBUM_PEAK", {"REPLAYGAIN_ALBUM_PEAK"}, {ITUNES_ATOM "REPLAYGAIN_ALBUM_PEAK", ITUNES_ATOM "replaygain_album_peak"}}},
+    {"replaygain_track_gain", {{{"TXXX", ""}, {"REPLAYGAIN_TRACK_GAIN", "replaygain_track_gain"}}, "REPLAYGAIN_TRACK_GAIN", {"REPLAYGAIN_TRACK_GAIN"}, {ITUNES_ATOM "REPLAYGAIN_TRACK_GAIN", ITUNES_ATOM "replaygain_track_gain"}}},
+    {"replaygain_track_peak", {{{"TXXX", ""}, {"REPLAYGAIN_TRACK_PEAK", "replaygain_track_peak"}}, "REPLAYGAIN_TRACK_PEAK", {"REPLAYGAIN_TRACK_PEAK"}, {ITUNES_ATOM "REPLAYGAIN_TRACK_PEAK", ITUNES_ATOM "replaygain_track_peak"}}},
+    {"script", {{{"TXXX", ""}, {"SCRIPT"}}, "SCRIPT", {"Script"}, {ITUNES_ATOM "SCRIPT"}}},
+    {"show", {{{"", ""}, {}}, "", {}, {"tvsh"}}},
+    {"showsort", {{{"", ""}, {}}, "", {}, {"sosn"}}},
+    {"showmovement", {{{"TXXX", ""}, {"SHOWMOVEMENT"}}, "SHOWMOVEMENT", {"SHOWMOVEMENT"}, {ITUNES_ATOM "shwm"}}},
+    {"subtitle", {{{"TIT3", ""}, {}}, "SUBTITLE", {"Subtitle"}, {ITUNES_ATOM "SUBTITLE"}}},
+    {"title", {{{"TIT2", ""}, {}}, "TITLE", {"Title"}, {"\251nam"}}},
+    {"titlesort", {{{"TSOT", ""}, {}}, "TITLESORT", {"TITLESORT"}, {"sonm"}}},
+    {"website", {{{"WOAR", ""}, {}}, "WEBSITE", {"Weblink"}, {}}},
+    {"work", {{{"TIT1", ""}, {}}, "WORK", {"WORK"}, {"\251wrk"}}},
+    {"writer", {{{"TXXX", ""}, {"Writer"}}, "WRITER", {"Writer"}, {}}}
 };
+
+Metadata::Metadata(const Config &config) : config(config)
+{
+    if (config.extended_tags)
+        extended_tags = std::make_unique<ExtendedTags>();
+}
 
 std::string Metadata::get(const std::string &key) const
 {
     auto it = tag_map.find(key);
-    assert(it != tag_map.end());
     return it == tag_map.end() ? std::string() : it->second.front().to8Bit(true);
 }
 
@@ -230,13 +237,31 @@ bool Metadata::read_tags(const TagLib::Ogg::XiphComment *tag, const TagLib::List
     parse_intpair(tag, "DISCNUMBER", "DISCTOTAL", disc);
     parse_date(tag, "DATE", date);
 
+    // Blacklist for extended tags
+    static const std::unordered_set<std::string> disallowed_tags = {
+        "TRACKNUMBER",
+        "TRACKTOTAL",
+        "DISCNUMBER",
+        "DISCTOTAL",
+        "DATE",
+        "ENCODEDBY",
+        "ENCODED_BY"
+    };
+
     const auto &map = tag->fieldListMap();
-    for (const auto& [key, tags] : supported_tags) {
-        if (tags.vorbis.isEmpty())
-            continue;
-        const TagLib::StringList &list = map[tags.vorbis];
-        if (!list.isEmpty())
-            tag_map[key] = list;
+    for (const auto& [key, value] : map) {
+        auto it = std::find_if(supported_tags.begin(),
+            supported_tags.end(),
+            [&](const auto &tag){
+                return key == tag.second.vorbis;
+            }
+        );
+        if (it != supported_tags.end())
+            tag_map[it->first] = value;
+
+        // Extended tags
+        else if (extended_tags && !disallowed_tags.contains(key.to8Bit(false)))
+            extended_tags->emplace_back(key, value);
     }
 
     if (config.copy_artwork) {
@@ -255,60 +280,58 @@ bool Metadata::read_tags(const TagLib::ID3v2::Tag *tag)
     parse_date(tag, date);
 
     const auto &map = tag->frameListMap();
-    const auto it_txxx = map.find("TXXX");
-    TagLib::ID3v2::FrameList txxx_frames = it_txxx != map.end() ? it_txxx->second : TagLib::ID3v2::FrameList();
-    for (const auto& [key, tags] : supported_tags) {
-        for (int i = 0; i < 2; i++) {
-            if (tags.id3v2.frame_ids[i].isEmpty())
+    for (const auto& [frame_id, frame_list] : map) {
+        if (frame_list.isEmpty())
+            continue;
+        if (frame_id == "UFID") {
+            auto ufid_frame = dynamic_cast<TagLib::ID3v2::UniqueFileIdentifierFrame*>(frame_list.front());
+            if (!ufid_frame || ufid_frame->owner() != "http://musicbrainz.org")
                 continue;
-
-            // User text frames
-            if (tags.id3v2.frame_ids[i] == "TXXX") {
-                bool found = false;
-                for (const auto &frame : txxx_frames) {
-                    const auto txxx_frame = dynamic_cast<TagLib::ID3v2::UserTextIdentificationFrame*>(frame);
-                    if (!txxx_frame)
-                        continue;
-                    
-                    for (const auto &desc : tags.id3v2.descs) {
-                        if (txxx_frame->description() == desc) {
-                            tag_map[key] = txxx_frame->toString();
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (found)
-                        break;
-                }
-            }
-            else if (tags.id3v2.frame_ids[i] == "UFID")
-                read_frame<TagLib::ID3v2::UniqueFileIdentifierFrame>(key, map, tags.id3v2.frame_ids[i]);
-            else if (tags.id3v2.frame_ids[i] == "USLT")
-                read_frame<TagLib::ID3v2::UnsynchronizedLyricsFrame>(key, map, tags.id3v2.frame_ids[i]);
-            else if (tags.id3v2.frame_ids[i] == "COMM")
-                read_frame<TagLib::ID3v2::CommentsFrame>(key, map, tags.id3v2.frame_ids[i]);
-
-            // Standard text frames
-            else {
-                const auto it = map.find(tags.id3v2.frame_ids[i].data(TagLib::String::Type::Latin1));
-                if (it == map.end())
+            tag_map["musicbrainz_recordingid"] = TagLib::String(ufid_frame->identifier(), TagLib::String::Type::Latin1);
+        }
+        else if (frame_id == "USLT")
+            read_frames<TagLib::ID3v2::UnsynchronizedLyricsFrame>("lyrics", frame_list);
+        else if (frame_id == "COMM")
+            read_frames<TagLib::ID3v2::CommentsFrame>("comment", frame_list);
+        else {
+            for (auto frame : frame_list) {
+                auto text_frame = dynamic_cast<TagLib::ID3v2::TextIdentificationFrame*>(frame);
+                if (!text_frame)
                     continue;
-                const auto &frames = it->second;
-                if (tags.id3v2.descs.empty())
-                    tag_map[key] = frames.front()->toString();
-                else {
-                    for (const auto &frame : frames) {
-                        const auto tframe = dynamic_cast<TagLib::ID3v2::TextIdentificationFrame*>(frame);
-                        if (!tframe)
-                            continue;
-                        TagLib::StringList list = tframe->fieldList();
-                        if (list.front() == tags.id3v2.descs.front()) {
-                            list.erase(list.begin());
-                            tag_map[key] = list;
+                auto fields = text_frame->fieldList();
+                if (fields.isEmpty())
+                    continue;
+                auto desc = fields.front();
+                auto it = std::find_if(supported_tags.begin(),
+                    supported_tags.end(),
+                    [&](const auto &tag){
+                        auto id3v2 = tag.second.id3v2;
+                        for (int i = 0; i < 2; i++) {
+                            if (frame_id == id3v2.frame_ids[i].data(TagLib::String::Type::Latin1)) {
+                                if (id3v2.descs.empty())
+                                    return true;
+                                else {
+                                    for (auto &d : id3v2.descs) {
+                                        if (d == desc)
+                                            return true;
+                                    }
+                                }
+                            }
                         }
+                        return false;
                     }
+                );
+                if (it != supported_tags.end()) {
+                    if (frame_id == "TXXX")
+                        fields.erase(fields.begin());
+                    tag_map[it->first].append(fields);
+                }
+                else if (extended_tags && frame_id == "TXXX") {
+                    fields.erase(fields.begin());
+                    extended_tags->emplace_back(desc, fields);
                 }
             }
+
         }
     }
 
@@ -330,15 +353,10 @@ bool Metadata::read_tags(const TagLib::ID3v2::Tag *tag)
 }
 
 template <typename T>
-void Metadata::read_frame(const std::string &key, const TagLib::ID3v2::FrameListMap &map, const TagLib::String &frame_id)
+void Metadata::read_frames(const std::string &key, const TagLib::ID3v2::FrameList &frames)
 {
-    const auto it = map.find(frame_id.data(TagLib::String::Type::Latin1));
-    if (it != map.end() && !it->second.isEmpty()) {
-        const auto frame = it->second.front();
-        auto subframe = dynamic_cast<T*>(frame);
-        if (subframe)
-            tag_map[key] = subframe->toString();
-    }
+    for (const auto frame : frames)
+        tag_map[key].append(frame->toString());
 }
 
 bool Metadata::read_tags(TagLib::MP4::Tag *tag)
@@ -349,13 +367,26 @@ bool Metadata::read_tags(TagLib::MP4::Tag *tag)
     parse_date(tag, "\251day", date);
 
     const auto &map = tag->itemMap();
-    for (const auto &[key, tags] : supported_tags) {
-        for (const auto &tag : tags.mp4) {
-            const auto &it = map.find(tag);
-            if (it != map.end()) {
-                tag_map[key] = it->second.toStringList();
-                break;
-            }
+    for (const auto& [key, item] : map) {
+        auto it = std::find_if(supported_tags.begin(),
+            supported_tags.end(),
+                [&](const auto &tag) {
+                    for (const auto &mp4_key : tag.second.mp4) {
+                        if (mp4_key == key)
+                            return true;
+                    }
+                    return false;
+                }
+        );
+        if (it != supported_tags.end())
+            tag_map[it->first].append(item.toStringList());
+        else if (extended_tags) {
+            if (!key.startsWith("----:"))
+                continue;
+            auto list = key.split(":");
+            if (list.size() < 3)
+                continue;
+            extended_tags->emplace_back(list[2], item.toStringList());
         }
     }
 
@@ -381,17 +412,41 @@ bool Metadata::read_tags(TagLib::APE::Tag *tag)
 {
     parse_intpair(tag, "TRACK", track);
     parse_intpair(tag, "DISC", disc);
-    parse_date(tag, "YEAR", date);
+    parse_date(tag, "DATE", date);
+
+    // Blacklist for extended tags
+    static const std::unordered_set<std::string> disallowed_tags = {
+        "DATE",
+        "TRACK",
+        "TOTALTRACKS",
+        "DISC",
+        "DISCTOTAL",
+        "TOTALDISCS",
+        "YEAR",
+        "ENCODER",
+        "COVER ART(FRONT)"
+    };
 
     const auto &map = tag->itemListMap();
-    for (const auto &[key, tags] : supported_tags) {
-        if (tags.ape.isEmpty())
+    for (const auto& [key, item] : map) {
+        if (item.type() != TagLib::APE::Item::ItemTypes::Text)
             continue;
-        const auto &item = map[tags.ape.upper()];
-        if (item.isEmpty())
-            continue;
-        tag_map[key] = item.toString();
+        auto it = std::find_if(supported_tags.begin(),
+            supported_tags.end(),
+            [&](const auto &tag) {
+                for (const auto &ape_key : tag.second.ape) {
+                    if (key == ape_key.upper())
+                        return true;
+                }
+                return false;
+            }
+        );
+        if (it != supported_tags.end())
+            tag_map[it->first] = item.values();
+        else if (extended_tags && !disallowed_tags.contains(key.to8Bit(false)))
+            extended_tags->emplace_back(key, item.values());
     }
+
     if (config.copy_artwork) {
         const auto &item = map["COVER ART (FRONT)"];
         if (!item.isEmpty() && item.type() == TagLib::APE::Item::ItemTypes::Binary) {
@@ -664,6 +719,13 @@ bool Metadata::write_tags(TagLib::Ogg::XiphComment *tag)
         catch (...) {}
     }
 
+    if (extended_tags) {
+        for (const auto& [key, value_list] : *extended_tags) {
+            for (const auto &value : value_list)
+                tag->addField(key, value, false);
+        }
+    }
+
     if (album_art) {
         auto picture = new TagLib::FLAC::Picture;
         picture->setData(album_art->data);
@@ -686,39 +748,56 @@ bool Metadata::write_tags(TagLib::ID3v2::Tag *tag)
     if (date)
         write_date(tag, date);
 
-    for (const auto& [key, value] : tag_map) {
+    for (const auto& [key, values] : tag_map) {
+        if (values.isEmpty())
+            continue;
         try {
             const auto &id3v2 = supported_tags.at(key).id3v2;
             const TagLib::String &frame_id = (config.mp3.id3v2_version == 4 && !id3v2.frame_ids[1].isEmpty()) ? id3v2.frame_ids[1] : id3v2.frame_ids[0];
             if (frame_id == "TXXX") {
                 if (!id3v2.descs.empty()) {
-                    auto frame = new TagLib::ID3v2::UserTextIdentificationFrame(id3v2.descs.front(), value);
-                    tag->addFrame(frame);
+                    for (const auto &value : values) {
+                        auto frame = new TagLib::ID3v2::UserTextIdentificationFrame(id3v2.descs.front(), value);
+                        tag->addFrame(frame);
+                    }
                 }
             }
             else if (frame_id == "UFID") {
                 if (!id3v2.descs.empty()) {
-                    auto frame = new TagLib::ID3v2::UniqueFileIdentifierFrame(id3v2.descs.front(), value.front().data(TagLib::String::Type::Latin1));
+                    auto frame = new TagLib::ID3v2::UniqueFileIdentifierFrame(id3v2.descs.front(), values.front().data(TagLib::String::Type::Latin1));
                     tag->addFrame(frame);
                 }
             }
             else if (frame_id == "USLT") {
                 auto frame = new TagLib::ID3v2::UnsynchronizedLyricsFrame();
-                frame->setText(value.front());
+                frame->setText(values.front());
                 tag->addFrame(frame);
             }
             else if (frame_id == "COMM") {
-                auto frame = new TagLib::ID3v2::CommentsFrame();
-                frame->setText(value.front());
-                tag->addFrame(frame);
+                for (const auto &value : values) {
+                    auto frame = new TagLib::ID3v2::CommentsFrame();
+                    frame->setText(value);
+                    tag->addFrame(frame);
+                }
             }
             else {
-                auto frame = new TagLib::ID3v2::TextIdentificationFrame(frame_id.data(TagLib::String::Type::Latin1));
-                frame->setText(value);
-                tag->addFrame(frame);
+                for (const auto &value : values) {
+                    auto frame = new TagLib::ID3v2::TextIdentificationFrame(frame_id.data(TagLib::String::Type::Latin1));
+                    frame->setText(value);
+                    tag->addFrame(frame);
+                }
             }
         }
         catch (...) {}
+    }
+
+    if (extended_tags) {
+        for (const auto& [key, values] : *extended_tags) {
+            for (const auto &value : values) {
+                auto frame = new TagLib::ID3v2::UserTextIdentificationFrame(key, value);
+                tag->addFrame(frame);
+            }
+        }
     }
 
     if (album_art) {
@@ -748,6 +827,12 @@ bool Metadata::write_tags(TagLib::MP4::Tag *tag)
                 tag->setItem(mp4_tags.front(), TagLib::MP4::Item(value));
         }
         catch (...) {}
+    }
+
+    if (extended_tags) {
+        for (const auto& [key, value] : *extended_tags) {
+            tag->setItem(TagLib::String(ITUNES_ATOM).append(key), TagLib::MP4::Item(value));
+        }
     }
 
     if (album_art) {
@@ -837,12 +922,21 @@ void Metadata::print(spdlog::logger &logger)
 {
     logger.debug("Found {} metadata tags:", tag_map.size());
     for (const auto &[key, value] : tag_map)
-        logger.debug("  {}: {}", key, value.toString().to8Bit());
+        logger.debug("  {}: {}", key, value.toString(";").to8Bit(true));
     if (track)
         logger.debug("  track: {}", FORMAT_PAIR(track));
     if (disc)
         logger.debug("  disc: {}", FORMAT_PAIR(disc));
     if (date)
        logger.debug("  date: {}", FORMAT_DATE(date));
+    if (extended_tags) {
+        if (extended_tags->empty())
+            logger.debug("No extended tags found");
+        else {
+            logger.debug("Found {} extended tags:", extended_tags->size());
+            for (const auto& [key, value] : *extended_tags)
+                logger.debug("  {}={}", key.to8Bit(true), value.toString(";").to8Bit(true));
+        }
+    }
     logger.debug("Cover art: {}", album_art ? "Yes" : "No");
 }

@@ -211,6 +211,7 @@ struct Config {
     std::unordered_set<Codec> codec_support;
 
     bool copy_metadata = true;
+    bool extended_tags = false;
     bool copy_artwork = true;
     bool skip_existing = true;
     bool sync_newer = true;

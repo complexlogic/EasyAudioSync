@@ -118,6 +118,7 @@ class SettingsTranscoding : public SettingsWidgetBase, private Ui::SettingsTrans
 
     private slots:
         void on_cpu_threads_max_button_toggled(bool checked) { cpu_threads_box->setEnabled(!checked); }
+        void on_copy_metadata_box_stateChanged(int state) { extended_tags_box->setEnabled(state == Qt::Checked); }
 
 };
 

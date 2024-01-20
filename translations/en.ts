@@ -44,21 +44,6 @@
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/about.cpp" line="28"/>
-        <source>Version %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/about.cpp" line="40"/>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/about.cpp" line="40"/>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Application</name>
@@ -242,17 +227,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.hpp" line="227"/>
+        <location filename="../src/settings.hpp" line="228"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.hpp" line="228"/>
+        <location filename="../src/settings.hpp" line="229"/>
         <source>File Handling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.hpp" line="229"/>
+        <location filename="../src/settings.hpp" line="230"/>
         <source>Transcoding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -586,32 +571,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="45"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="63"/>
+        <source>Include extended tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settings_transcoding.ui" line="72"/>
         <source>Copy cover art</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="55"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="82"/>
         <source>Downsample high resolution audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="65"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="92"/>
         <source>Downmix multi-channel audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="77"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="104"/>
         <source>Number of CPU threads:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="90"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="117"/>
         <source>Maximum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="109"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="136"/>
         <source>Specific:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -19,6 +19,8 @@
 #include "util.hpp"
 struct Config;
 
+using ExtendedTags = std::vector<std::pair<TagLib::String, TagLib::StringList>>;
+
 class Metadata {
     public: 
         struct Tag {
@@ -33,7 +35,7 @@ class Metadata {
 
             ID3v2 id3v2;
             TagLib::String vorbis;
-            TagLib::String ape;
+            std::vector<TagLib::String> ape;
             std::vector<TagLib::String> mp4;
         };
         struct AlbumArt {
@@ -43,7 +45,7 @@ class Metadata {
             AlbumArt(const TagLib::ByteVector &data, const TagLib::String mime) : data(data), mime(mime) {}
         };
 
-        Metadata(const Config &config) : config(config) {}
+        Metadata(const Config &config);
         bool read(const std::filesystem::path &path);
         bool write(const std::filesystem::path &path, Codec codec);
         std::string get(const std::string &key) const;
@@ -54,6 +56,7 @@ class Metadata {
 
     private:
         std::unordered_map<std::string, TagLib::StringList> tag_map;
+        std::unique_ptr<ExtendedTags> extended_tags;
         std::unique_ptr<AlbumArt> album_art;
         const Config &config;
 
@@ -64,7 +67,7 @@ class Metadata {
         bool read_tags(const TagLib::Ogg::XiphComment *tag, const TagLib::List<TagLib::FLAC::Picture*> &pictures);
         bool read_tags(const TagLib::ID3v2::Tag *tag);
         template <typename T>
-        void read_frame(const std::string &key, const TagLib::ID3v2::FrameListMap &map, const TagLib::String &frame_id);
+        void read_frames(const std::string &key, const TagLib::ID3v2::FrameList &frames);
         bool read_tags(TagLib::MP4::Tag *tag);
         bool read_tags(TagLib::APE::Tag *tag);
         void parse_intpair(const TagLib::Ogg::XiphComment *tag, const TagLib::String &first_key, const TagLib::String &second_key, std::unique_ptr<std::pair<int, int>> &ptr);

@@ -207,6 +207,7 @@ SettingsTranscoding::SettingsTranscoding(const Config &config, QWidget *parent) 
 void SettingsTranscoding::load(const Config &config)
 {
     copy_metadata_box->setChecked(config.copy_metadata);
+    extended_tags_box->setChecked(config.extended_tags);
     copy_artwork_box->setChecked(config.copy_metadata);
     downsample_hi_res_box->setChecked(config.downsample_hi_res);
     downmix_multichannel_box->setChecked(config.downmix_multichannel);
@@ -222,6 +223,7 @@ void SettingsTranscoding::load(const Config &config)
 void SettingsTranscoding::save(Config &config, QSettings &settings)
 {
     save_checkbox("copy_metadata", config.copy_metadata, copy_metadata_box, settings);
+    save_checkbox("extended_tags", config.extended_tags, extended_tags_box, settings);
     save_checkbox("copy_artwork", config.copy_artwork, copy_artwork_box, settings);
     save_checkbox("downsample_hi_res", config.downsample_hi_res, downsample_hi_res_box, settings);
     save_checkbox("downmix_multichannel", config.downmix_multichannel, downmix_multichannel_box, settings);
