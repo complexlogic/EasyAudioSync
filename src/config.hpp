@@ -29,8 +29,8 @@ struct Config {
     template <typename T>
     class ComboMap : public ComboMapBase {
         public:
-            virtual const char* get_title(int i) const { return std::get<1>(*(map.begin() + i)); }
-            virtual size_t size() const { return map.size(); }
+            const char* get_title(int i) const override { return std::get<1>(*(map.begin() + i)); }
+            size_t size() const override { return map.size(); }
             const QString& get_current_key() const { return std::get<0>(*current); }
             const T& get_current_value() const { return std::get<2>(*current); }
             int get_current_index() const { return (int) (current - map.begin()); }
@@ -42,6 +42,14 @@ struct Config {
                     current = it;
             }
             void set(int i) { current = map.begin() + i; }
+            bool add(const QString &key, const char *name, const T& item) {
+                if (find(key) != map.end())
+                    return false;
+                int i = get_current_index();
+                map.push_back({key, name, item});
+                current = map.begin() + i;
+                return true;
+            }
             ComboMap(const std::vector<std::tuple<QString, const char*, T>> &&map, const QString &initial)
             : map(map), current(find(initial)) {}
 
@@ -149,17 +157,22 @@ struct Config {
         };
         const Preset& get_preset() const { return preset.get_current_value(); }
     };
-    struct Encoders {
+    struct Features {
         bool lame = false;
         bool fdk_aac = false;
         bool lavc_aac = false;
         bool libvorbis = false;
         bool libopus = false;
+        bool soxr = false;
     };
     enum ReplayGainMode {
         NONE,
         TRACK,
         ALBUM
+    };
+    enum ResamplingEngine {
+        SWR,
+        SOXR
     };
 
     ComboMap<ReplayGainMode> rg_mode {
@@ -178,6 +191,13 @@ struct Config {
             {"debug", QT_TRANSLATE_NOOP("SettingsGeneral", "Debug"), spdlog::level::debug},
         },
         "error"
+    };
+
+    ComboMap<ResamplingEngine> resampling_engine {
+        {
+            {"swr", "SW",  ResamplingEngine::SWR},
+        },
+        "swr"
     };
 
     std::vector<std::pair<Codec, std::string>> encoders = {
@@ -207,7 +227,7 @@ struct Config {
     AAC aac;
     OGG ogg;
     Opus opus;
-    Encoders has_encoder;
+    Features has_feature;
     std::unordered_set<Codec> codec_support;
 
     bool copy_metadata = true;
@@ -224,7 +244,7 @@ struct Config {
     bool downmix_multichannel = true;
     QString lang;
 
-    void check_encoders();
+    void check_features();
     std::pair<Action, Codec> get_file_handling(const std::filesystem::path &path) const;
     Codec get_input_codec(Codec out_codec) const;
     std::string get_encoder_name(Codec codec) const;

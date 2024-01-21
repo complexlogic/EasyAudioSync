@@ -42,12 +42,14 @@ void Settings::save()
 
 void SettingsWidgetBase::populate_comboboxes()
 {
-    for (const auto &[map, combo_box, translatable] : combo_boxes) {
+    for (const auto& [map, combo_box, translatable] : combo_boxes) {
         int nb_items = (int) map->size();
         for (int i = 0; i < nb_items; i++) {
             const char *title = map->get_title(i);
             combo_box->addItem(translatable ? tr(title) : title);
         }
+        if (nb_items < 2)
+            combo_box->setEnabled(false);
     }
 }
 
@@ -199,6 +201,7 @@ SettingsTranscoding::SettingsTranscoding(const Config &config, QWidget *parent) 
 {
     setupUi(this);
     combo_boxes = {
+        {&config.resampling_engine, resampling_engine_box, false},
         {&config.rg_mode, replaygain_mode_box, true}
     };
     populate_comboboxes();
@@ -209,6 +212,7 @@ void SettingsTranscoding::load(const Config &config)
     copy_metadata_box->setChecked(config.copy_metadata);
     extended_tags_box->setChecked(config.extended_tags);
     copy_artwork_box->setChecked(config.copy_metadata);
+    resampling_engine_box->setCurrentIndex(config.resampling_engine.get_current_index());
     downsample_hi_res_box->setChecked(config.downsample_hi_res);
     downmix_multichannel_box->setChecked(config.downmix_multichannel);
     replaygain_mode_box->setCurrentIndex(config.rg_mode.get_current_index());
@@ -225,6 +229,8 @@ void SettingsTranscoding::save(Config &config, QSettings &settings)
     save_checkbox("copy_metadata", config.copy_metadata, copy_metadata_box, settings);
     save_checkbox("extended_tags", config.extended_tags, extended_tags_box, settings);
     save_checkbox("copy_artwork", config.copy_artwork, copy_artwork_box, settings);
+    config.resampling_engine.set(resampling_engine_box->currentIndex());
+    settings.setValue("resampling_engine", config.resampling_engine.get_current_key());
     save_checkbox("downsample_hi_res", config.downsample_hi_res, downsample_hi_res_box, settings);
     save_checkbox("downmix_multichannel", config.downmix_multichannel, downmix_multichannel_box, settings);
     config.rg_mode.set(replaygain_mode_box->currentIndex());
@@ -277,9 +283,9 @@ SettingsAAC::SettingsAAC(const Config &config, QWidget *parent) : SettingsWidget
         {&config.aac.lavc.preset, lavc_aac_preset_box, true}
     };
     populate_comboboxes();
-    if (config.has_encoder.fdk_aac)
+    if (config.has_feature.fdk_aac)
         encoders.emplace_back("libfdk_aac", "Fraunhofer FDK AAC");
-    if (config.has_encoder.lavc_aac)
+    if (config.has_feature.lavc_aac)
         encoders.emplace_back("aac", "Libavcodec AAC");
     for (const auto& [key, name] : encoders)
         aac_encoder_box->addItem(name);

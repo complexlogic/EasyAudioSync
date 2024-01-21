@@ -21,26 +21,26 @@
     </message>
     <message>
         <location filename="../src/ui/about.ui" line="305"/>
-        <source>Encoder Support</source>
+        <source>Feature Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/about.ui" line="425"/>
+        <location filename="../src/ui/about.ui" line="439"/>
         <source>Build Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/about.ui" line="451"/>
+        <location filename="../src/ui/about.ui" line="465"/>
         <source>Build Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/about.ui" line="461"/>
+        <location filename="../src/ui/about.ui" line="475"/>
         <source>Compiler:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/about.ui" line="493"/>
+        <location filename="../src/ui/about.ui" line="507"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -281,41 +281,41 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="98"/>
+        <location filename="../src/config.hpp" line="106"/>
         <source>VBR Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="99"/>
+        <location filename="../src/config.hpp" line="107"/>
         <source>VBR Medium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="100"/>
+        <location filename="../src/config.hpp" line="108"/>
         <source>VBR High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="101"/>
-        <location filename="../src/config.hpp" line="116"/>
+        <location filename="../src/config.hpp" line="109"/>
+        <location filename="../src/config.hpp" line="124"/>
         <source>CBR 96 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="102"/>
-        <location filename="../src/config.hpp" line="117"/>
+        <location filename="../src/config.hpp" line="110"/>
+        <location filename="../src/config.hpp" line="125"/>
         <source>CBR 128 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="103"/>
-        <location filename="../src/config.hpp" line="118"/>
+        <location filename="../src/config.hpp" line="111"/>
+        <location filename="../src/config.hpp" line="126"/>
         <source>CBR 192 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="104"/>
-        <location filename="../src/config.hpp" line="119"/>
+        <location filename="../src/config.hpp" line="112"/>
+        <location filename="../src/config.hpp" line="127"/>
         <source>CBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -409,17 +409,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="176"/>
+        <location filename="../src/config.hpp" line="189"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="177"/>
+        <location filename="../src/config.hpp" line="190"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="178"/>
+        <location filename="../src/config.hpp" line="191"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -442,42 +442,42 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="70"/>
+        <location filename="../src/config.hpp" line="78"/>
         <source>VBR Low (V6)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="71"/>
+        <location filename="../src/config.hpp" line="79"/>
         <source>VBR Medium (V4)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="72"/>
+        <location filename="../src/config.hpp" line="80"/>
         <source>VBR High (V2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="73"/>
+        <location filename="../src/config.hpp" line="81"/>
         <source>VBR Extreme (V0)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="74"/>
+        <location filename="../src/config.hpp" line="82"/>
         <source>CBR 128 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="75"/>
+        <location filename="../src/config.hpp" line="83"/>
         <source>CBR 192 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="76"/>
+        <location filename="../src/config.hpp" line="84"/>
         <source>CBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="77"/>
+        <location filename="../src/config.hpp" line="85"/>
         <source>CBR 320 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -528,32 +528,32 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="141"/>
+        <location filename="../src/config.hpp" line="149"/>
         <source>VBR 64 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="142"/>
+        <location filename="../src/config.hpp" line="150"/>
         <source>VBR 96 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="143"/>
+        <location filename="../src/config.hpp" line="151"/>
         <source>VBR 128 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="144"/>
+        <location filename="../src/config.hpp" line="152"/>
         <source>VBR 160 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="145"/>
+        <location filename="../src/config.hpp" line="153"/>
         <source>VBR 192 kbps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="146"/>
+        <location filename="../src/config.hpp" line="154"/>
         <source>VBR 256 kbps</source>
         <translation type="unfinished"></translation>
     </message>
@@ -592,31 +592,36 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/ui/settings_transcoding.ui" line="104"/>
+        <source>Resampling Engine:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/settings_transcoding.ui" line="125"/>
         <source>Number of CPU threads:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="117"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="138"/>
         <source>Maximum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/settings_transcoding.ui" line="136"/>
+        <location filename="../src/ui/settings_transcoding.ui" line="157"/>
         <source>Specific:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="167"/>
+        <location filename="../src/config.hpp" line="180"/>
         <source>Don&apos;t encode ReplayGain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="168"/>
+        <location filename="../src/config.hpp" line="181"/>
         <source>Encode track gain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/config.hpp" line="169"/>
+        <location filename="../src/config.hpp" line="182"/>
         <source>Encode album gain</source>
         <translation type="unfinished"></translation>
     </message>

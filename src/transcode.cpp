@@ -389,6 +389,9 @@ bool Transcoder::init_resampler()
         ffmpeg_error(ret, "Could not allocate swresample context");
         return false;
     }
+    if (in_file.codec_ctx->sample_rate != out_file.codec_ctx->sample_rate
+        && config.resampling_engine.get_current_value() == Config::ResamplingEngine::SOXR)
+        av_opt_set_int(swr_ctx, "resampler", SWR_ENGINE_SOXR, 0);
 
     ret = swr_init(swr_ctx);
     if (ret < 0) {
@@ -618,7 +621,8 @@ bool Transcoder::transcode()
 
     // Initialization
     if (config.copy_metadata) {
-        metadata.read(in_file.path);
+        if(!metadata.read(in_file.path))
+            logger.error("Failed to read metadata for input file '{}'", in_file.path.string());
         if (out_codec == Codec::OPUS && config.opus.convert_r128)
             metadata.convert_r128();
     }

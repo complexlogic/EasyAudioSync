@@ -37,7 +37,7 @@
 
 Application::Application(QWidget *parent) : QMainWindow(parent), style(QApplication::style()), settings(EXECUTABLE_NAME, EXECUTABLE_NAME)
 {
-    config->check_encoders();
+    config->check_features();
     config->load(settings);
 #ifdef _WIN32
     char buffer[MAX_PATH];

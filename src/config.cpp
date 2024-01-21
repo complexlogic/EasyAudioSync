@@ -9,27 +9,45 @@
 #include <QSettings>
 #include <QWidget>
 #include <QString>
+extern "C" {
+#include <libswresample/swresample.h>
+#include <libavutil/opt.h>
+#include <libavutil/channel_layout.h>
+}
 
 #include "config.hpp"
 #include "util.hpp"
 
 #define HAS_ENCODER(e) avcodec_find_encoder_by_name(e) != nullptr
 
-void Config::check_encoders()
+void Config::check_features()
 {
-    has_encoder.lame = HAS_ENCODER("libmp3lame");
-    has_encoder.fdk_aac = HAS_ENCODER("libfdk_aac");
-    has_encoder.lavc_aac = HAS_ENCODER("aac");
-    has_encoder.libvorbis = HAS_ENCODER("libvorbis");
-    has_encoder.libopus = HAS_ENCODER("libopus");
-    if (has_encoder.lame)
+    has_feature.lame = HAS_ENCODER("libmp3lame");
+    has_feature.fdk_aac = HAS_ENCODER("libfdk_aac");
+    has_feature.lavc_aac = HAS_ENCODER("aac");
+    has_feature.libvorbis = HAS_ENCODER("libvorbis");
+    has_feature.libopus = HAS_ENCODER("libopus");
+    if (has_feature.lame)
         codec_support.insert(Codec::MP3);
-    if (has_encoder.lavc_aac || has_encoder.fdk_aac)
+    if (has_feature.lavc_aac || has_feature.fdk_aac)
         codec_support.insert(Codec::AAC);
-    if (has_encoder.libvorbis)
+    if (has_feature.libvorbis)
         codec_support.insert(Codec::VORBIS);
-    if (has_encoder.libopus)
+    if (has_feature.libopus)
         codec_support.insert(Codec::OPUS);
+
+    // Check for SoX resampler
+    SwrContext *swr_ctx = nullptr;
+    AVChannelLayout ch;
+    av_channel_layout_default(&ch, 2);
+    if (!swr_alloc_set_opts2(&swr_ctx, &ch, AV_SAMPLE_FMT_S16, 44100, &ch, AV_SAMPLE_FMT_S16, 48000, 0, nullptr)) {
+        av_opt_set_int(swr_ctx, "resampler", SWR_ENGINE_SOXR, 0);
+        if (swr_init(swr_ctx) == 0) {
+            has_feature.soxr = true;
+            resampling_engine.add("soxr", "SoX", ResamplingEngine::SOXR);
+        }
+        swr_free(&swr_ctx);
+    }
 }
 
 std::pair<Action, Codec> Config::get_file_handling(const std::filesystem::path &path) const
@@ -126,6 +144,7 @@ void Config::load(const QSettings &settings)
     copy_metadata = settings.value("copy_metadata", copy_metadata).toBool();
     extended_tags = settings.value("extended_tags", extended_tags).toBool();
     copy_artwork = settings.value("copy_artwork", copy_artwork).toBool();
+    resampling_engine.set(settings.value("resampling_engine").toString());
     downsample_hi_res = settings.value("downsample_hi_res", downsample_hi_res).toBool();
     downmix_multichannel = settings.value("downsample_hi_res", downmix_multichannel).toBool();
     rg_mode.set(settings.value("replaygain_mode").toString());
@@ -175,9 +194,9 @@ void Config::load(const QSettings &settings)
     // AAC
     QString aac_encoder = settings.value("aac_encoder").toString();
     if (aac_encoder.isEmpty())
-        set_encoder_name(Codec::AAC, has_encoder.fdk_aac ? "libfdk_aac" : "aac");
+        set_encoder_name(Codec::AAC, has_feature.fdk_aac ? "libfdk_aac" : "aac");
     else
-        set_encoder_name(Codec::AAC, aac_encoder == "libfdk_aac" && has_encoder.fdk_aac ? "libfdk_aac" : "aac");
+        set_encoder_name(Codec::AAC, aac_encoder == "libfdk_aac" && has_feature.fdk_aac ? "libfdk_aac" : "aac");
     aac.fdk.preset.set(settings.value("aac_fdk_preset").toString());
     aac.fdk.afterburner = settings.value("aac_fdk_afterburner", aac.fdk.afterburner).toBool();
     aac.lavc.preset.set(settings.value("aac_lavc_preset").toString());

@@ -15,7 +15,7 @@
     {
       "name": "ffmpeg",
       "default-features": false,
-      "features": ["avcodec", "avformat", "avfilter", "swresample", "mp3lame", "fdk-aac", "vorbis", "opus"]
+      "features": ["avcodec", "avformat", "avfilter", "swresample", "mp3lame", "fdk-aac", "vorbis", "opus", "soxr"]
     },
     "taglib",
     "spdlog"

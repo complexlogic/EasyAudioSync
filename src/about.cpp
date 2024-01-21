@@ -37,12 +37,14 @@ AboutDialog::AboutDialog(const Config &config, QWidget *parent) : QDialog(parent
     FFMPEG_VERSION(avutil_version, lavu_ver);
 
     // Encoders
-#define SUPPORT_ENCODER(encoder, label) label->setText(encoder ? tr("Yes") : tr("No"))
-    SUPPORT_ENCODER(config.has_encoder.lame, support_lame);
-    SUPPORT_ENCODER(config.has_encoder.fdk_aac, support_fdk_aac);
-    SUPPORT_ENCODER(config.has_encoder.lavc_aac, support_lavc_aac);
-    SUPPORT_ENCODER(config.has_encoder.libvorbis, support_libvorbis);
-    SUPPORT_ENCODER(config.has_encoder.libopus, support_libopus);
+#define SUPPORT_FEATURE(feature, label) label->setText(feature ? tr("Yes") : tr("No"))
+    SUPPORT_FEATURE(config.has_feature.lame, support_lame);
+    SUPPORT_FEATURE(config.has_feature.fdk_aac, support_fdk_aac);
+    SUPPORT_FEATURE(config.has_feature.lavc_aac, support_lavc_aac);
+    SUPPORT_FEATURE(config.has_feature.libvorbis, support_libvorbis);
+    SUPPORT_FEATURE(config.has_feature.libopus, support_libopus);
+    SUPPORT_FEATURE(config.has_feature.soxr, support_soxr);
+
 
     // Build info
     build_date->setText(BUILD_DATE);
