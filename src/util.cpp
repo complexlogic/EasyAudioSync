@@ -20,7 +20,7 @@ extern "C" {
 
 FileType filetype_from_path(const std::filesystem::path &path)
 {
-    static const std::unordered_map<std::string, FileType> map = {
+    static const std::unordered_map<std::string, FileType> map {
         {".mp3",  FileType::MP3},
         {".flac", FileType::FLAC},
         {".ogg",  FileType::OGG},
@@ -42,7 +42,7 @@ FileType filetype_from_path(const std::filesystem::path &path)
 // Get the exact codec, opening the file and checking if necessary
 Codec codec_from_path(const std::filesystem::path &path)
 {
-    static const std::unordered_map<std::string, Codec> map = {
+    static const std::unordered_map<std::string, Codec> map {
         {".mp3",  Codec::MP3},
         {".flac", Codec::FLAC},
         {".opus", Codec::OPUS},
@@ -75,7 +75,7 @@ Codec codec_from_path(const std::filesystem::path &path)
 // This returns a vector of possible Codecs, so the file is not opened (faster)
 std::vector<Codec> codecs_from_path(const std::filesystem::path &path)
 {
-    static const std::unordered_map<std::string, std::vector<Codec>> map = {
+    static const std::unordered_map<std::string, std::vector<Codec>> map {
         {".mp3", { Codec::MP3 }},
         {".flac", { Codec::FLAC }},
         {".ogg", { Codec::VORBIS, Codec::OPUS }},
@@ -97,7 +97,7 @@ std::vector<Codec> codecs_from_path(const std::filesystem::path &path)
 
 AVCodecID ffcodec_from_path(const std::filesystem::path &path)
 {
-    static const std::unordered_map<std::string, AVCodecID> map = {
+    static const std::unordered_map<std::string, AVCodecID> map {
         {".mp3",  AV_CODEC_ID_MP3},
         {".flac", AV_CODEC_ID_FLAC},
         {".opus", AV_CODEC_ID_OPUS},
@@ -137,7 +137,7 @@ AVCodecID ffcodec_from_file(const std::filesystem::path &path)
 
 const std::vector<std::string>& exts_for_codec(Codec codec)
 {
-    static const std::vector<std::pair<Codec, std::vector<std::string>>> exts = {
+    static const std::vector<std::pair<Codec, std::vector<std::string>>> exts {
         { Codec::MP3, {".mp3"} },
         { Codec::FLAC, {".flac"} },
         { Codec::VORBIS, {".ogg"} },

@@ -20,46 +20,47 @@
 #define VORBIS_DEFAULT_QUALITY 4
 #define OPUS_DEFAULT_BITRATE 128000
 
-struct Config {
-    class ComboMapBase {
-        public:
-            virtual const char* get_title(int i) const = 0;
-            virtual size_t size() const = 0;
-    };
-    template <typename T>
-    class ComboMap : public ComboMapBase {
-        public:
-            const char* get_title(int i) const override { return std::get<1>(*(map.begin() + i)); }
-            size_t size() const override { return map.size(); }
-            const QString& get_current_key() const { return std::get<0>(*current); }
-            const T& get_current_value() const { return std::get<2>(*current); }
-            int get_current_index() const { return (int) (current - map.begin()); }
-            void set(const QString &key) { 
-                if (key.isEmpty())
-                    return;
-                auto it = find(key);
-                if (it != map.end())
-                    current = it;
-            }
-            void set(int i) { current = map.begin() + i; }
-            bool add(const QString &key, const char *name, const T& item) {
-                if (find(key) != map.end())
-                    return false;
-                int i = get_current_index();
-                map.push_back({key, name, item});
-                current = map.begin() + i;
-                return true;
-            }
-            ComboMap(const std::vector<std::tuple<QString, const char*, T>> &&map, const QString &initial)
-            : map(map), current(find(initial)) {}
+class ComboMapBase {
+    public:
+        virtual const char* get_title(int i) const = 0;
+        virtual size_t size() const = 0;
+};
+template <typename T>
+class ComboMap : public ComboMapBase {
+    public:
+        const char* get_title(int i) const override { return std::get<1>(*(map.begin() + i)); }
+        size_t size() const override { return map.size(); }
+        const QString& get_current_key() const { return std::get<0>(*current); }
+        const T& get_current_value() const { return std::get<2>(*current); }
+        int get_current_index() const { return (int) (current - map.begin()); }
+        void set(const QString &key) {
+            if (key.isEmpty())
+                return;
+            auto it = find(key);
+            if (it != map.end())
+                current = it;
+        }
+        void set(int i) { current = map.begin() + i; }
+        bool add(const QString &key, const char *name, const T& item) {
+            if (find(key) != map.end())
+                return false;
+            int i = get_current_index();
+            map.push_back({key, name, item});
+            current = map.begin() + i;
+            return true;
+        }
+        ComboMap(const std::vector<std::tuple<QString, const char*, T>> &&map, const QString &initial)
+        : map(map), current(find(initial)) {}
 
-        private:
-            std::vector<std::tuple<QString, const char*, T>> map;
-            typename std::vector<std::tuple<QString, const char*, T>>::iterator current;
-            typename std::vector<std::tuple<QString, const char*, T>>::iterator find(const QString &key) {
-                return std::find_if(map.begin(), map.end(), [&](const auto &i) { return key == std::get<0>(i); });
-            }
-    };
+    private:
+        std::vector<std::tuple<QString, const char*, T>> map;
+        typename std::vector<std::tuple<QString, const char*, T>>::iterator current;
+        typename std::vector<std::tuple<QString, const char*, T>>::iterator find(const QString &key) {
+            return std::find_if(map.begin(), map.end(), [&](const auto &i) { return key == std::get<0>(i); });
+        }
+};
+
+struct Config {
 
     // MP3 settings
     struct MP3 {
@@ -200,14 +201,14 @@ struct Config {
         "swr"
     };
 
-    std::vector<std::pair<Codec, std::string>> encoders = {
+    std::vector<std::pair<Codec, std::string>> encoders {
         {Codec::MP3,    "libmp3lame"},
         {Codec::AAC,    "libfdk_aac"},
         {Codec::VORBIS, "libvorbis"},
         {Codec::OPUS,   "libopus"}
     };
 
-    std::array<FileHandling, 11> file_handling = {{
+    std::array<FileHandling, 11> file_handling {{
         { Codec::MP3, Action::COPY, Codec::MP3 },
         { Codec::FLAC, Action::COPY, Codec::MP3 },
         { Codec::VORBIS, Action::COPY, Codec::MP3 },

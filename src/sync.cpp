@@ -75,7 +75,7 @@ bool Sync::transcode()
     avg = std::make_unique<ExpAvg>(nb_jobs);
     emit set_progress_bar_max((int) nb_jobs);
     emit set_progress_bar((progress = 0));
-    emit message(tr("Transcoding %1 file(s)...").arg(QLocale().toString(nb_jobs)));
+    emit message(tr("Transcoding %Ln file(s)...", nullptr, (int) nb_jobs));
     last_update = std::chrono::system_clock::now();
 
     if (config.cpu_max_threads) {
@@ -220,8 +220,8 @@ void Sync::Copier::copy()
             }
         }
         if (file_ret) {
-            std::unique_ptr<FILE, decltype(&fclose)> in(fopen(in_file.string().c_str(), "rb"), fclose);
-            std::unique_ptr<FILE, decltype(&fclose)> out(fopen(out_file.string().c_str(), "wb"), fclose);
+            std::unique_ptr<FILE, int(*)(FILE*)> in(fopen(in_file.string().c_str(), "rb"), fclose);
+            std::unique_ptr<FILE, int(*)(FILE*)> out(fopen(out_file.string().c_str(), "wb"), fclose);
             file_ret = in && out;
             if (file_ret) {
                 logger.info("Copying file '{}' to '{}'", in_file.string(), out_file.string());
@@ -231,7 +231,11 @@ void Sync::Copier::copy()
         }
         const auto duration = std::chrono::ceil<std::chrono::microseconds>(std::chrono::system_clock::now() - begin);
         double time = static_cast<double>(duration.count());
-        double size_mb = static_cast<double>(std::filesystem::file_size(in_file)) / 1048576.0;
+        double size_mb = 0.0;
+        try {
+            size_mb = static_cast<double>(std::filesystem::file_size(in_file)) / 1048576.0;
+        }
+        catch(...) {}
         double speed =  size_mb / (time / 1000000.0);
         std::scoped_lock lock(mutex);
         if (file_ret)
@@ -253,7 +257,7 @@ bool Sync::copy_files()
     bool finished = false;
     emit set_progress_bar((progress = 0));
     emit set_progress_bar_max((int) nb_files);
-    emit message(tr("Copying %1 file(s)...").arg(QLocale().toString(nb_files)));
+    emit message(tr("Copying %Ln file(s)...", nullptr, (int) nb_files));
     avg = std::make_unique<ExpAvg>(nb_files);
     files_remaining = nb_files;
     std::mutex mutex;
@@ -366,7 +370,7 @@ end:
 bool Sync::delete_files()
 {
     bool ret = true;
-    emit message(tr("Deleting %1 file(s) in destination directory...").arg(QLocale().toString(deleted_files.size())));
+    emit message(tr("Deleting %Ln file(s) in destination directory...", nullptr, (int) deleted_files.size()));
     for (auto it = deleted_files.begin(); it != deleted_files.end() && (ret || !config.abort_on_error); ++it) {
         logger->info("Deleting destination file '{}'", it->string());
         try {
@@ -453,4 +457,3 @@ bool Sync::DirectoryList::delete_all(const Config &config, spdlog::logger &logge
 
     return ret;
 }
-

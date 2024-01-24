@@ -16,6 +16,7 @@ set(RDNS_NAME "io.github.complexlogic.EasyAudioSync")
 include_directories(${PROJECT_BINARY_DIR})
 add_compile_definitions("$<$<CONFIG:DEBUG>:DEBUG>")
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
+set(VS_STARTUP_PROJECT ${EXECUTABLE_NAME})
 
 # Configure options
 if (WIN32 OR APPLE)
@@ -91,6 +92,28 @@ elseif (WIN32)
   find_program(WINDEPLOYQT windeployqt.exe REQUIRED)
   if (NSIS_INSTALLER)
     find_program(NSIS makensis.exe REQUIRED)
+  endif ()
+endif ()
+
+# Embed Git information
+find_package(Git QUIET)
+if (Git_FOUND)
+  execute_process(COMMAND "${GIT_EXECUTABLE}" describe --long --tags
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+    OUTPUT_VARIABLE GIT_OUTPUT
+    RESULT_VARIABLE GIT_RESULT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if (GIT_RESULT EQUAL 0)
+    string(REPLACE "-" ";" GIT_LIST "${GIT_OUTPUT}")
+    list(GET GIT_LIST 1 COMMITS_SINCE_TAG)
+    if (NOT COMMITS_SINCE_TAG STREQUAL "0")
+      list(GET GIT_LIST 2 COMMIT_HASH)
+      string(REPLACE "g" "" COMMIT_HASH "${COMMIT_HASH}")
+      set(PROJECT_VERSION_GIT "${PROJECT_VERSION}-r${COMMITS_SINCE_TAG}-${COMMIT_HASH}")
+      add_compile_definitions(PROJECT_VERSION_GIT=\"${PROJECT_VERSION_GIT}\")
+      set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_GIT}")
+    endif ()
   endif ()
 endif ()
 

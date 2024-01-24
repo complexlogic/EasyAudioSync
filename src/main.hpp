@@ -16,8 +16,6 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 
-#include "util.hpp"
-
 class Sync;
 struct Config;
 class QLineEdit;
@@ -53,11 +51,12 @@ signals:
     void close_dialogs();
 
 private:
+    std::unique_ptr<Ui::MainWindow> ui;
+    std::unique_ptr<Config> config;
     QStyle *style;
     QSettings settings;
     QTranslator translator;
     QThread thread;
-    std::unique_ptr<Config> config = std::make_unique<Config>();
     Sync *sync = nullptr;
     std::filesystem::path log_path;
     std::filesystem::path source;
@@ -66,7 +65,6 @@ private:
     std::atomic_flag stop_flag;
     bool quit_flag = false;
     std::chrono::time_point<std::chrono::system_clock> begin;
-    Ui::MainWindow *ui = nullptr;
 
     void open_directory(std::filesystem::path &path, QLineEdit *box, const QString &title);
     void set_sync_button_state();
@@ -77,7 +75,7 @@ private:
 
 public:
     explicit Application(QWidget *parent = nullptr);
-    virtual ~Application();
+    ~Application();
     void closeEvent(QCloseEvent *event);
     void changeEvent(QEvent *event);
 };

@@ -17,13 +17,7 @@
    <item>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="html">
-      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The clean destination feature deletes files in the destination that do not exist in the source. After deleting files, the program removes any empty directories in the destination. &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When files in the destination are deleted, they are deleted permanently with no way to recover them. You will not be prompted for confirmation before they are deleted.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This feature should only be enabled when the program is being used as intended. That is, any existing files in the destination directory should have been created by a previous sync. If your destination directory contains other files, you may experience unwanted data loss.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string></string>
      </property>
     </widget>
    </item>

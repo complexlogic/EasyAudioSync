@@ -55,7 +55,7 @@
 *    - date
 */
 
-static const std::unordered_map<std::string, Metadata::Tag> supported_tags = {
+static const std::unordered_map<std::string, Metadata::Tag> supported_tags {
     {"acoustid_id", {{{"TXXX", ""}, {"Acoustid Id"}}, "ACOUSTID_ID", {"ACOUSTID_ID"}, {ITUNES_ATOM "Acoustid Id"}}},
     {"acoustid_fingerprint", {{{"TXXX", ""}, {"Acoustid Fingerprint"}}, "ACOUSTID_FINGERPRINT", {"ACOUSTID_FINGERPRINT"}, {ITUNES_ATOM "Acoustid Fingerprint"}}},
     {"album", {{{"TALB", ""}, {}}, "ALBUM", {"Album"}, {"\251alb"}}},
@@ -146,11 +146,12 @@ Metadata::Metadata(const Config &config) : config(config)
 std::string Metadata::get(const std::string &key) const
 {
     auto it = tag_map.find(key);
-    return it == tag_map.end() ? std::string() : it->second.front().to8Bit(true);
+    return it == tag_map.end() ? std::string() : it->second.toString(";").to8Bit(true);
 }
 
 bool Metadata::read(const std::filesystem::path &path)
 {
+    bool ret = false;
     TagLib::File *file = nullptr;
     TagLib::FileRef *ref_file = nullptr;
     TagLib::MPEG::File *mpeg_file = nullptr;
@@ -215,18 +216,21 @@ bool Metadata::read(const std::filesystem::path &path)
             return false;
     }
 
-    if (id3v2_tag)
-        read_tags(id3v2_tag);
-    else if (xiph_tag)
-        read_tags(xiph_tag, flac_file ? flac_file->pictureList() : xiph_tag->pictureList());
-    else if (mp4_tag)
-        read_tags(mp4_tag);
-    else if (ape_tag)
-        read_tags(ape_tag);
+    if (file && file->isValid()) {
+        if (id3v2_tag)
+            read_tags(id3v2_tag);
+        else if (xiph_tag)
+            read_tags(xiph_tag, flac_file ? flac_file->pictureList() : xiph_tag->pictureList());
+        else if (mp4_tag)
+            read_tags(mp4_tag);
+        else if (ape_tag)
+            read_tags(ape_tag);
+        ret = true;
+    }
 
     delete file;
     delete ref_file;
-    return tag_map.size() > 0;
+    return ret;
 }
 
 bool Metadata::read_tags(const TagLib::Ogg::XiphComment *tag, const TagLib::List<TagLib::FLAC::Picture*> &pictures)
@@ -238,11 +242,13 @@ bool Metadata::read_tags(const TagLib::Ogg::XiphComment *tag, const TagLib::List
     parse_date(tag, "DATE", date);
 
     // Blacklist for extended tags
-    static const std::unordered_set<std::string> disallowed_tags = {
+    static const std::unordered_set<std::string> disallowed_tags {
         "TRACKNUMBER",
         "TRACKTOTAL",
+        "TOTALTRACKS",
         "DISCNUMBER",
         "DISCTOTAL",
+        "TOTALDISCS",
         "DATE",
         "ENCODEDBY",
         "ENCODED_BY"
@@ -415,7 +421,7 @@ bool Metadata::read_tags(TagLib::APE::Tag *tag)
     parse_date(tag, "DATE", date);
 
     // Blacklist for extended tags
-    static const std::unordered_set<std::string> disallowed_tags = {
+    static const std::unordered_set<std::string> disallowed_tags {
         "DATE",
         "TRACK",
         "TOTALTRACKS",
@@ -537,7 +543,7 @@ void Metadata::parse_date(const TagLib::Ogg::XiphComment *tag, const TagLib::Str
 {
     const auto &map = tag->fieldListMap();
     const auto it = map.find(key);
-    if (it == map.end())
+    if (it == map.end() || it->second.isEmpty())
         return;
     parse_iso8601(it->second.front().data(TagLib::String::Latin1), ptr);
 }
@@ -592,7 +598,10 @@ void Metadata::parse_date(const TagLib::MP4::Tag *tag, const TagLib::String &key
     const auto it = map.find(key);
     if (it == map.end())
         return;
-    parse_iso8601(it->second.toStringList().front().data(TagLib::String::Latin1), ptr);
+    auto string_list = it->second.toStringList();
+    if (string_list.isEmpty())
+        return;
+    parse_iso8601(string_list.front().data(TagLib::String::Latin1), ptr);
 }
 
 void Metadata::parse_date(const TagLib::APE::Tag *tag, const TagLib::String &key, std::unique_ptr<std::tm> &ptr)
@@ -886,7 +895,7 @@ void Metadata::write_date(TagLib::ID3v2::Tag *tag, std::unique_ptr<std::tm> &ptr
 void Metadata::convert_r128()
 {
     std::string gain;
-    static const std::array<std::pair<std::string, std::string>, 2> tags = {{
+    static const std::array<std::pair<std::string, std::string>, 2> tags {{
         {"replaygain_track_gain", "r128_track_gain"},
         {"replaygain_album_gain", "r128_album_gain"}
     }};
@@ -907,12 +916,12 @@ void Metadata::convert_r128()
 
 void Metadata::strip_replaygain()
 {
-    static const std::string rg_tags[] = {
+    static const std::array<std::string, 4> rg_tags {{
         "replaygain_track_gain",
         "replaygain_track_peak",
         "replaygain_album_gain",
         "replaygain_album_peak"
-    };
+    }};
 
     for (const auto &tag : rg_tags)
         tag_map.erase(tag);
@@ -921,7 +930,7 @@ void Metadata::strip_replaygain()
 void Metadata::print(spdlog::logger &logger)
 {
     logger.debug("Found {} metadata tags:", tag_map.size());
-    for (const auto &[key, value] : tag_map)
+    for (const auto& [key, value] : tag_map)
         logger.debug("  {}: {}", key, value.toString(";").to8Bit(true));
     if (track)
         logger.debug("  track: {}", FORMAT_PAIR(track));

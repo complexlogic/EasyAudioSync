@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -747,9 +747,8 @@
     <message numerus="yes">
         <location filename="../src/sync.cpp" line="78"/>
         <source>Transcoding %Ln file(s)...</source>
-        <translation>
-            <numerusform>Transcoding %Ln file...</numerusform>
-            <numerusform>Transcoding %Ln files...</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -770,9 +769,8 @@
     <message numerus="yes">
         <location filename="../src/sync.cpp" line="260"/>
         <source>Copying %Ln file(s)...</source>
-        <translation>
-            <numerusform>Copying %Ln file...</numerusform>
-            <numerusform>Copying %Ln files...</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -783,9 +781,8 @@
     <message numerus="yes">
         <location filename="../src/sync.cpp" line="373"/>
         <source>Deleting %Ln file(s) in destination directory...</source>
-        <translation>
-            <numerusform>Deleting %Ln file in destination directory...</numerusform>
-            <numerusform>Deleting %Ln files in destination directory...</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>

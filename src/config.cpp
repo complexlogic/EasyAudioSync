@@ -74,7 +74,7 @@ Codec Config::get_input_codec(Codec out_codec) const
 // the input path
 std::string Config::get_output_ext(Codec codec, const std::filesystem::path &path) const
 {
-    static const std::vector<std::pair<Codec, std::string>> codecs = {
+    static const std::vector<std::pair<Codec, std::string>> codecs {
         {Codec::MP3,     ".mp3"},
         {Codec::FLAC,    ".flac"},
         {Codec::VORBIS,  ".ogg"},

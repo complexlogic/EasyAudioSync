@@ -1,13 +1,13 @@
 # C++ sources
 set(CXX_SOURCES 
-  main.cpp
-  sync.cpp
-  transcode.cpp
-  metadata.cpp
-  config.cpp
-  util.cpp
-  settings.cpp
-  about.cpp
+  main.cpp main.hpp
+  sync.cpp sync.hpp
+  transcode.cpp transcode.hpp
+  metadata.cpp metadata.hpp
+  config.cpp config.hpp
+  util.cpp util.hpp
+  settings.cpp settings.hpp
+  about.cpp about.hpp
 )
 set(ICON_RESOURCE ${PROJECT_SOURCE_DIR}/assets/icons/icons.qrc)
 
@@ -43,13 +43,8 @@ configure_file("${PROJECT_SOURCE_DIR}/translations/languages.hpp.in" "${PROJECT_
 
 # Make lupdate target for Qt 6
 if (${QT_VERSION} VERSION_GREATER_EQUAL "6")
-  qt_add_lupdate(${EXECUTABLE_NAME} 
-    SOURCES
-      ${UI_PATHS}
-      ${CXX_SOURCES}
-      ${CMAKE_CURRENT_SOURCE_DIR}/config.hpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/settings.hpp
-    TS_FILES ${TS_FILES}
+  qt_add_lupdate(${EXECUTABLE_NAME}
+    TS_FILES ${TS_FILES} "${PROJECT_SOURCE_DIR}/translations/source.ts"
   )
 endif ()
 qt_add_translation(QM_FILES "${TS_FILES}")
@@ -149,6 +144,9 @@ if (UNIX)
         set(CPACK_RPM_PACKAGE_AUTOREQPROV 0)
         set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase, glibc >= 2.38, libstdc++ >= 13.2")
       endif ()
+      if (PROJECT_VERSION_GIT)
+        set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_GIT}")
+      endif ()
       include(CPack)
     endif ()
   endif ()
@@ -209,6 +207,9 @@ elseif (WIN32)
   else ()
     set(CPACK_GENERATOR "ZIP")
 	set(CPACK_PACKAGE_NAME ${EXECUTABLE_NAME})
+  endif ()
+  if (PROJECT_VERSION_GIT)
+    set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_GIT}")
   endif ()
   include(CPack)
 endif ()

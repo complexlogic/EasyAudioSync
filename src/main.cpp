@@ -35,7 +35,12 @@
 
 #define LOG_FILENAME EXECUTABLE_NAME ".log"
 
-Application::Application(QWidget *parent) : QMainWindow(parent), style(QApplication::style()), settings(EXECUTABLE_NAME, EXECUTABLE_NAME)
+Application::Application(QWidget *parent) :
+QMainWindow(parent),
+ui(std::make_unique<Ui::MainWindow>()),
+config(std::make_unique<Config>()),
+style(QApplication::style()),
+settings(EXECUTABLE_NAME, EXECUTABLE_NAME)
 {
     config->check_features();
     config->load(settings);
@@ -65,7 +70,6 @@ Application::Application(QWidget *parent) : QMainWindow(parent), style(QApplicat
     else
         std::ignore = translator.load(config->lang, ":/translations");
     QCoreApplication::installTranslator(&translator);
-    ui = new Ui::MainWindow();
     ui->setupUi(this);
     ui->stop_button->setEnabled(false);
     ui->stop_button->setIcon(style->standardIcon(QStyle::SP_BrowserStop));
@@ -79,11 +83,7 @@ Application::Application(QWidget *parent) : QMainWindow(parent), style(QApplicat
 
     set_sync_button_state();
 }
-
-Application::~Application()
-{
-    delete ui;
-}
+Application::~Application() = default;
 
 void Application::read_settings()
 {

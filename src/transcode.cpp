@@ -287,7 +287,7 @@ Transcoder::VolumeFilter* Transcoder::VolumeFilter::factory(const AVCodecContext
 
     // avolume options
     av_dict_set(&dict, "volume", fmt::format("{:.6f}", pow(10.0, gain / 20.0)).c_str(), 0);
-    static const std::vector<std::pair<std::string, std::vector<AVSampleFormat>>> fmt_map = {
+    static const std::vector<std::pair<std::string, std::vector<AVSampleFormat>>> fmt_map {
         {"fixed", {AV_SAMPLE_FMT_U8, AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_U8P, 
                    AV_SAMPLE_FMT_S16P, AV_SAMPLE_FMT_S32P, AV_SAMPLE_FMT_S64, AV_SAMPLE_FMT_S64P}},
         {"float", {AV_SAMPLE_FMT_FLT, AV_SAMPLE_FMT_FLTP}},

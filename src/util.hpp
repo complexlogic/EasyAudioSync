@@ -95,25 +95,21 @@ void save_window_pos(QWidget *window, const QString &name, QSettings &settings);
 bool restore_window_size(QWidget *window, const QString &name, QSettings &settings);
 bool restore_window_pos(QWidget *window, const QString &name, QSettings &settings);
 
-inline bool join_paths([[maybe_unused]] std::filesystem::path &p)
+inline bool join_path([[maybe_unused]] std::filesystem::path &p)
 {
     return true;
 }
 
 template<typename... Args>
-inline bool join_paths(std::filesystem::path &path, const char *first, const Args&... args)
+inline bool join_path(std::filesystem::path &path, const std::filesystem::path &first, const Args&... args)
 {
-    if (!first)
-        return false;
     path /= first;
-    return join_paths(path, args...);
+    return join_path(path, args...);
 }
 
 template<typename... Args>
-inline std::filesystem::path join_paths(const char *first, const Args&... args)
-{    
-    if (!first)
-        return std::filesystem::path();
+inline std::filesystem::path join_paths(const std::filesystem::path &first, const Args&... args)
+{
     std::filesystem::path path(first);
-    return join_paths(path, args...) ? path : std::filesystem::path();
+    return join_path(path, args...) ? path : std::filesystem::path();
 }
