@@ -258,7 +258,7 @@ bool Metadata::read_tags(const TagLib::Ogg::XiphComment *tag, const TagLib::List
     for (const auto& [key, value] : map) {
         auto it = std::find_if(supported_tags.begin(),
             supported_tags.end(),
-            [&](const auto &tag){
+            [&key = key](const auto &tag){
                 return key == tag.second.vorbis;
             }
         );
@@ -310,7 +310,7 @@ bool Metadata::read_tags(const TagLib::ID3v2::Tag *tag)
                 auto desc = fields.front();
                 auto it = std::find_if(supported_tags.begin(),
                     supported_tags.end(),
-                    [&](const auto &tag){
+                    [&frame_id = frame_id, &desc](const auto &tag){
                         auto id3v2 = tag.second.id3v2;
                         for (int i = 0; i < 2; i++) {
                             if (frame_id == id3v2.frame_ids[i].data(TagLib::String::Type::Latin1)) {
@@ -376,7 +376,7 @@ bool Metadata::read_tags(TagLib::MP4::Tag *tag)
     for (const auto& [key, item] : map) {
         auto it = std::find_if(supported_tags.begin(),
             supported_tags.end(),
-                [&](const auto &tag) {
+                [&key = key](const auto &tag) {
                     for (const auto &mp4_key : tag.second.mp4) {
                         if (mp4_key == key)
                             return true;
@@ -439,7 +439,7 @@ bool Metadata::read_tags(TagLib::APE::Tag *tag)
             continue;
         auto it = std::find_if(supported_tags.begin(),
             supported_tags.end(),
-            [&](const auto &tag) {
+            [&key = key](const auto &tag) {
                 for (const auto &ape_key : tag.second.ape) {
                     if (key == ape_key.upper())
                         return true;

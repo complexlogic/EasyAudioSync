@@ -21,7 +21,7 @@ private:
     void ffmpeg_version(unsigned(*fn)(), QLabel *label);
 
 public:
-    void closeEvent(QCloseEvent *event) { event->accept(); }
+    void closeEvent(QCloseEvent *event) override { event->accept(); }
     explicit AboutDialog(const Config &config, QWidget *parent = nullptr);
     ~AboutDialog() override;
 };

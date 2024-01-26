@@ -43,7 +43,7 @@ class Settings : public QDialog
         ~Settings() override;
 
     public slots:
-        void done(int r) {
+        void done(int r) override {
             if (r == QDialog::Accepted)
                 save();
             close();
