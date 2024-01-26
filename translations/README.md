@@ -5,7 +5,7 @@ Easy Audio Sync uses the Qt translation system for localization. To translate th
 Determine your language's [ISO-639](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) code. Region extensions are supported. For example, Portuguese is `pt` and Brazillian Portuguese is `pt_BR`.
 
 ### Qt Linguist
-The translation source files have `.ts` file extension. Use the English `en.ts` file as a base. Open it in Qt Linguist and save it as a new file with your language's ISO-639 code. Click Edit->Translation File Settings, and set the target language.
+The translation source files have `.ts` file extension. Use the `source.ts` file as a base. Open it in Qt Linguist and save it as a new file with your language's ISO-639 code. Click Edit->Translation File Settings, and set the target language.
 
 Translate all of the application's strings and mark them with the green "done" checkmark. Strings may have format specifiers such as `%1`, `%2`, etc. This means that the application will substitute values at runtime in the order given. It's important to keep these format specifiers in the translated string, but you may need to change the order based on your language's grammar.
 

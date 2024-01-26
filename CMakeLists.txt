@@ -5,7 +5,7 @@ if (VCPKG)
 endif ()
 
 project("Easy Audio Sync"
-  VERSION 1.0
+  VERSION 1.1
   DESCRIPTION "Audio library syncing and conversion utility"
   HOMEPAGE_URL "https://github.com/complexlogic/EasyAudioSync"
   LANGUAGES CXX

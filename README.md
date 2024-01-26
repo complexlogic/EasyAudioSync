@@ -25,40 +25,41 @@ The program's design is inspired by the [rsync](https://github.com/WayneD/rsync)
 ![Settings](https://github.com/complexlogic/EasyAudioSync/assets/95071366/9f4bcc67-995f-4f74-b533-13581e2bbd92)
 
 ## Installation
+Builds are available for Windows, macOS, and some Linux distributions. You can also build from source yourself, see [BUILDING](docs/building.md)
 
 ### Windows
 Easy Audio Sync is compatible with Windows 10 and later. Download the installer executable from the link below, run it, and follow the guided setup process:
-- [Easy Audio Sync v1.0 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-setup.exe)
+- [Easy Audio Sync v1.1 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-setup.exe)
 
 If Windows raises a SmartScreen warning when you try to run the executable, select More Info->Run Anyway.
 
 ### macOS
 *Note: I haven't tested these builds because I have no access to macOS hardware. Consider macOS support experimental, and open an issue on the [Issue Tracker](https://github.com/complexlogic/EasyAudioSync/issues) if you encounter any bugs.*
 
-Separate builds are available for Intel and Apple Silicon based Macs (both require macOS 12 or later):
-- [Easy Audio Sync v1.0 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-x86_64.dmg)
-- [Easy Audio Sync v1.0 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-arm64.dmg)
+Separate builds are available for Intel and Apple Silicon based Macs (both require macOS 11 or later):
+- [Easy Audio Sync v1.1 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-x86_64.dmg)
+- [Easy Audio Sync v1.1 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-arm64.dmg)
 
 ### Linux
 #### APT-based (Debian, Ubuntu)
-A .deb package is available on the release page. It was built on Ubuntu 22.04 and is compatible with the most recent release of most `apt`-based distros (anything that ships GCC 11 or later). Execute the following commands to install:
+A .deb package is available on the release page. It was built on Debian Bullseye and is compatible with the most recent release of most `apt`-based distros (anything that ships GCC 12 or later). Execute the following commands to install:
 
-```
-wget https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync_1.0_amd64.deb
-sudo apt install ./easyaudiosync_1.0_amd64.deb
+```bash
+wget https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync_1.1_amd64.deb
+sudo apt install ./easyaudiosync_1.1_amd64.deb
 ```
 
 #### Fedora
-A .rpm package is available on the release page that is compatible with Fedora 38 and later. Execute the following commands to install:
+A .rpm package is available on the release page that is compatible with Fedora 39 and later. Execute the following commands to install:
 
-```
-sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.0/easyaudiosync-1.0-1.x86_64.rpm
+```bash
+sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-1.x86_64.rpm
 ```
 
 #### Arch/Majarjo
 A PKGBUILD script is available in the `config` directory to automate building and installation. Run the following commands from a clean directory:
 
-```
+```bash
 wget https://raw.githubusercontent.com/complexlogic/EasyAudioSync/master/config/PKGBUILD
 makepkg -sic
 ```

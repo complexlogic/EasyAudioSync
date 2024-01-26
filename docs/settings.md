@@ -60,6 +60,9 @@ When enabled, the program will copy the source's metadata "tags" when transcodin
 
 There is a significant amount of fragmentation in the audio metadata ecosystem due to vague or non-existent standards. Internally, the program uses the [same tag mappings as MusicBrainz Picard](https://picard-docs.musicbrainz.org/en/appendices/tag_mapping.html). The MusicBrainz Picard project is one of the most authoritative references on audio metadata. You will have the best possible results if your source library is tagged with Picard.
 
+#### Include Extended Tags
+By default, the program only copies "official" tags to the output files. This setting will enable the transfer of custom tags.
+
 There are a few tags that have not been implemented.
 - Ratings - due to complexities between the various formats
 - Anything related to the input file itself rather than the audio it contains, such as original filename, encoder, encoder settings, etc. It's not appropriate to transfer these when creating a new file
@@ -77,6 +80,9 @@ When enabled, it sets the maximum sampling rate in output files to 48 kHz:
 When enabled, it sets the maximum number of channels in output files to 2:
 - If the source has 2 channels or fewer, the channel layout will be preserved to the output
 - If the source has more than 2 channels, the audio will be downmixed to 2 channels in the output.
+
+#### Resampling Enginer
+This setting controls the resampling engine that is used when converting between sampling rates. SW is the "native" FFmpeg resampler, and SoX is an external resampler that some believe to be of higher quality. You can expect a slight performance penalty when using SoX. It's about 10% in my testing, but your results will vary depending on your hardware, library composition, and other program settings.
 
 #### Number of CPU Threads
 This sets the number of threads that are used to transcode. Can be maximum (provided by OS at runtime), or a specific number. More threads will yield faster transcode times.
