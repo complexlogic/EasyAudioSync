@@ -35,7 +35,7 @@ FileType filetype_from_path(const std::filesystem::path &path)
     };
     std::string ext(path.extension().string());
     std::transform(ext.begin(), ext.end(), ext.begin(), tolower);
-    auto it = map.find(path.extension().string());
+    auto it = map.find(ext);
     return it == map.end() ? FileType::NONE : it->second;
 }
 
@@ -138,18 +138,18 @@ AVCodecID ffcodec_from_file(const std::filesystem::path &path)
 const std::vector<std::string>& exts_for_codec(Codec codec)
 {
     static const std::vector<std::pair<Codec, std::vector<std::string>>> exts {
-        { Codec::MP3, {".mp3"} },
-        { Codec::FLAC, {".flac"} },
-        { Codec::VORBIS, {".ogg"} },
-        { Codec::OPUS, {".opus"} },
-        { Codec::AAC, {".m4a", ".m4b"} },
-        { Codec::ALAC, {".m4a", ".m4b"} },
-        { Codec::WMA, {".wma"} },
-        { Codec::WAV, {".wav"} },
-        { Codec::WAVPACK, {".wv"} },
-        { Codec::APE, {".ape"} },
-        { Codec::MP3, {".ape"} },
-        { Codec::MPC, {".mpc"}},
+        { Codec::MP3, {".mp3", ".MP3"} },
+        { Codec::FLAC, {".flac", ".FLAC"} },
+        { Codec::VORBIS, {".ogg", ".OGG"} },
+        { Codec::OPUS, {".opus", ".OPUS"} },
+        { Codec::AAC, {".m4a", ".M4A", ".m4b", ".M4B"} },
+        { Codec::ALAC, {".m4a", ".M4A", ".m4b", ".M4B"} },
+        { Codec::WMA, {".wma", ".WMA"} },
+        { Codec::WAV, {".wav", ".WAV"} },
+        { Codec::WAVPACK, {".wv", ".WV"} },
+        { Codec::APE, {".ape", ".APE"} },
+        { Codec::MP3, {".ape", ".APE"} },
+        { Codec::MPC, {".mpc", ".MPC"}},
     };
     return std::find_if(exts.begin(), exts.end(), [&](const auto &i){return i.first == codec;})->second;
 }

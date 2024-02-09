@@ -29,7 +29,7 @@ Builds are available for Windows, macOS, and some Linux distributions. You can a
 
 ### Windows
 Easy Audio Sync is compatible with Windows 10 and later. Download the installer executable from the link below, run it, and follow the guided setup process:
-- [Easy Audio Sync v1.1 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-setup.exe)
+- [Easy Audio Sync v1.1.1 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1.1-setup.exe)
 
 If Windows raises a SmartScreen warning when you try to run the executable, select More Info->Run Anyway.
 
@@ -37,23 +37,23 @@ If Windows raises a SmartScreen warning when you try to run the executable, sele
 *Note: I haven't tested these builds because I have no access to macOS hardware. Consider macOS support experimental, and open an issue on the [Issue Tracker](https://github.com/complexlogic/EasyAudioSync/issues) if you encounter any bugs.*
 
 Separate builds are available for Intel and Apple Silicon based Macs (both require macOS 11 or later):
-- [Easy Audio Sync v1.1 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-x86_64.dmg)
-- [Easy Audio Sync v1.1 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-arm64.dmg)
+- [Easy Audio Sync v1.1.1 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-x86_64.dmg)
+- [Easy Audio Sync v1.1.1 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-arm64.dmg)
 
 ### Linux
 #### APT-based (Debian, Ubuntu)
 A .deb package is available on the release page. It was built on Debian Bullseye and is compatible with the most recent release of most `apt`-based distros (anything that ships GCC 12 or later). Execute the following commands to install:
 
 ```bash
-wget https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync_1.1_amd64.deb
-sudo apt install ./easyaudiosync_1.1_amd64.deb
+wget https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync_1.1.1_amd64.deb
+sudo apt install ./easyaudiosync_1.1.1_amd64.deb
 ```
 
 #### Fedora
 A .rpm package is available on the release page that is compatible with Fedora 39 and later. Execute the following commands to install:
 
 ```bash
-sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1-1.x86_64.rpm
+sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-1.x86_64.rpm
 ```
 
 #### Arch/Majarjo

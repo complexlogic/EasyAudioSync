@@ -1,3 +1,6 @@
+### v1.1.1 (2024-02-08)
+- Handle file extensions case insensitively
+
 ### v1.1 (2024-01-25)
 - Add support for SoX resampling engine
 - Add "Include extended tags" feature
