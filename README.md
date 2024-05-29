@@ -29,7 +29,7 @@ Builds are available for Windows, macOS, and some Linux distributions. You can a
 
 ### Windows
 Easy Audio Sync is compatible with Windows 10 and later. Download the installer executable from the link below, run it, and follow the guided setup process:
-- [Easy Audio Sync v1.1.1 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1/easyaudiosync-1.1.1-setup.exe)
+- [Easy Audio Sync v1.1.1 Installer EXE (x64)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-setup.exe)
 
 If Windows raises a SmartScreen warning when you try to run the executable, select More Info->Run Anyway.
 
