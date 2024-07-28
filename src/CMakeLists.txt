@@ -41,12 +41,6 @@ list(LENGTH LANGS NB_LANGS)
 string(REPLACE ";" "" LANG_PAIRS ${LANGS})
 configure_file("${PROJECT_SOURCE_DIR}/translations/languages.hpp.in" "${PROJECT_BINARY_DIR}/languages.hpp")
 
-# Make lupdate target for Qt 6
-if (${QT_VERSION} VERSION_GREATER_EQUAL "6")
-  qt_add_lupdate(${EXECUTABLE_NAME}
-    TS_FILES ${TS_FILES} "${PROJECT_SOURCE_DIR}/translations/source.ts"
-  )
-endif ()
 qt_add_translation(QM_FILES "${TS_FILES}")
 foreach (FILE ${QM_FILES})
   get_filename_component(BASENAME ${FILE} NAME)
@@ -212,4 +206,13 @@ elseif (WIN32)
     set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION_GIT}")
   endif ()
   include(CPack)
+endif ()
+
+# Make lupdate target for Qt 6
+if (${Qt${QT_VERSION}_VERSION} VERSION_GREATER_EQUAL 6.7)
+  qt_add_lupdate(
+    TS_FILES ${TS_FILES} "${PROJECT_SOURCE_DIR}/translations/source.ts"
+    SOURCE_TARGETS "${EXECUTABLE_NAME}"
+    LUPDATE_TARGET "${EXECUTABLE_NAME}_lupdate"
+  )
 endif ()
