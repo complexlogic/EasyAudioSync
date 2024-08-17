@@ -40,7 +40,23 @@ Separate builds are available for Intel and Apple Silicon based Macs (both requi
 - [Easy Audio Sync v1.1.1 DMG (Intel)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-x86_64.dmg)
 - [Easy Audio Sync v1.1.1 DMG (Apple Silicon)](https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-arm64.dmg)
 
+These builds are not codesigned, and the macOS Gatekeeper will most likely block execution. To work around this, you can remove the quarantine bit using the command below:
+
+```bash
+xattr -d com.apple.quarantine /path/to/easyaudiosync.dmg
+```
+
+Substitute `/path/to/easyaudiosync.dmg` with the actual path on your system.
+
 ### Linux
+
+#### Arch/Manjaro
+There is an [AUR package](https://aur.archlinux.org/packages/easyaudiosync) available, which can be installed using a helper such as yay:
+
+```bash
+yay -S easyaudiosync
+```
+
 #### APT-based (Debian, Ubuntu)
 A .deb package is available on the release page. It was built on Debian Bullseye and is compatible with the most recent release of most `apt`-based distros (anything that ships GCC 12 or later). Execute the following commands to install:
 
@@ -56,13 +72,6 @@ A .rpm package is available on the release page that is compatible with Fedora 3
 sudo dnf install https://github.com/complexlogic/EasyAudioSync/releases/download/v1.1.1/easyaudiosync-1.1.1-1.x86_64.rpm
 ```
 
-#### Arch/Majarjo
-A PKGBUILD script is available in the `config` directory to automate building and installation. Run the following commands from a clean directory:
-
-```bash
-wget https://raw.githubusercontent.com/complexlogic/EasyAudioSync/master/config/PKGBUILD
-makepkg -sic
-```
 ## Usage
 Easy Audio Sync operates based on a source folder and a destination folder, where the source folder contains the primary music library, and the destination folder is the desired output location. After selecting the source and destination folders, click the "Sync" button to start the sync. The program will recreate the source's entire subfolder structure in the destination, copying or transcoding files as specified in the settings. See the [settings documentation](docs/settings.md) for help on configuring the program's settings.
 
