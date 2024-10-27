@@ -1,3 +1,7 @@
+### v1.1.2 (2024-10-27)
+- Add more information to About page
+- Update dependencies for binaries
+
 ### v1.1.1 (2024-02-08)
 - Handle file extensions case insensitively
 
