@@ -11,6 +11,11 @@ extern "C" {
 #include <libavutil/avutil.h>
 }
 
+#include <taglib/taglib.h>
+#if TAGLIB_MAJOR_VERSION > 1
+#include <taglib/tversionnumber.h>
+#endif
+
 #include "ui_about.h"
 #include "config.hpp"
 #include "about.hpp"
@@ -51,6 +56,22 @@ ui(std::make_unique<Ui::AboutDialog>())
     ffmpeg_version(swresample_version, ui->lswr_ver);
     ffmpeg_version(avutil_version, ui->lavu_ver);
 
+#if TAGLIB_MAJOR_VERSION > 1
+    {
+        const auto tversion = TagLib::runtimeVersion();
+        ui->formLayout->addRow(
+            new QLabel("TagLib:", this),
+            new QLabel(
+                    QString("%1.%2%3")
+                        .arg(tversion.majorVersion())
+                        .arg(tversion.minorVersion())
+                        .arg(tversion.patchVersion() ? QString(".%1").arg(tversion.patchVersion()) : ""),
+                    this
+                )
+        );
+    }
+#endif
+
     // Encoders
 #define SUPPORT_FEATURE(feature, label) ui->label->setText(feature ? tr("Yes") : tr( "No"))
     SUPPORT_FEATURE(config.has_feature.lame, support_lame);
@@ -63,7 +84,17 @@ ui(std::make_unique<Ui::AboutDialog>())
     // Build info
     ui->build_date->setText(BUILD_DATE);
 #if defined(__GNUC__) && !defined(__clang__)
-    ui->compiler->setText(QString("GCC %1.%2").arg(__GNUC__).arg(__GNUC_MINOR__));
+    ui->compiler->setText(QString("GCC %1.%2"
+#if __GNUC_PATCHLEVEL__ > 0
+        ".%3"
+#endif
+        )
+        .arg(__GNUC__)
+        .arg(__GNUC_MINOR__)
+#if __GNUC_PATCHLEVEL__ > 0
+        .arg(__GNUC_PATCHLEVEL__)
+#endif
+    );
 #endif
 
 #if defined(__clang__)
