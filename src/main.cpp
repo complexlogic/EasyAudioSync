@@ -20,9 +20,10 @@
 #include <QStyle>
 #include <QStyleOption>
 #include <QIcon>
+#include <QPixmap>
+
 #include <fmt/core.h>
 #include <fmt/chrono.h>
-
 #include "main.hpp"
 #include "sync.hpp"
 #include "config.hpp"
@@ -36,11 +37,12 @@
 #define LOG_FILENAME EXECUTABLE_NAME ".log"
 
 Application::Application(QWidget *parent) :
-QMainWindow(parent),
-ui(std::make_unique<Ui::MainWindow>()),
-config(std::make_unique<Config>()),
-style(QApplication::style()),
-settings(EXECUTABLE_NAME, EXECUTABLE_NAME)
+    QMainWindow(parent),
+    ui(std::make_unique<Ui::MainWindow>()),
+    icon(std::make_unique<QPixmap>(":/icons/easyaudiosync256.png")),
+    config(std::make_unique<Config>()),
+    style(QApplication::style()),
+    settings(EXECUTABLE_NAME, EXECUTABLE_NAME)
 {
     config->check_features();
     config->load(settings);
@@ -214,7 +216,7 @@ void Application::on_action_settings_triggered()
 
 void Application::on_action_about_triggered()
 {
-    auto dialog = new AboutDialog(*config, this);
+    auto dialog = new AboutDialog(*config, *icon, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setModal(true);
     dialog->show();

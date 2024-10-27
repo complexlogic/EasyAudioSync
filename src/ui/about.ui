@@ -39,9 +39,6 @@
        <property name="text">
         <string/>
        </property>
-       <property name="pixmap">
-        <pixmap resource="../../assets/icons/icons.qrc">:/icons/easyaudiosync256.png</pixmap>
-       </property>
        <property name="scaledContents">
         <bool>true</bool>
        </property>

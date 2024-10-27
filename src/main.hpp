@@ -19,6 +19,7 @@
 class Sync;
 struct Config;
 class QLineEdit;
+class QPixmap;
 
 namespace Ui {
     class MainWindow;
@@ -52,6 +53,7 @@ signals:
 
 private:
     std::unique_ptr<Ui::MainWindow> ui;
+    std::unique_ptr<QPixmap> icon;
     std::unique_ptr<Config> config;
     QStyle *style;
     QSettings settings;

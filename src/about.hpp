@@ -10,6 +10,7 @@ namespace Ui {
     class AboutDialog;
 }
 class QLabel;
+class QPixmap;
 
 class AboutDialog : public QDialog
 {
@@ -22,6 +23,6 @@ private:
 
 public:
     void closeEvent(QCloseEvent *event) override { event->accept(); }
-    explicit AboutDialog(const Config &config, QWidget *parent = nullptr);
+    explicit AboutDialog(const Config &config, const QPixmap &icon, QWidget *parent = nullptr);
     ~AboutDialog() override;
 };

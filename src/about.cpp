@@ -2,6 +2,7 @@
 #include <QString>
 #include <QTabWidget>
 #include <QTabBar>
+#include <QPixmap>
 
 extern "C" {
 #include <libavformat/avformat.h>
@@ -24,11 +25,12 @@ extern "C" {
 #define PROGRAM_VER "<html><head/><body><p><span style=\" font-size:12pt;\">%1</span></p></body></html>"
 #define ABOUT_HTML "<html><head/><body><p>%1</p><p>%2</p></body></html>"
 
-AboutDialog::AboutDialog(const Config &config, QWidget *parent) :
+AboutDialog::AboutDialog(const Config &config, const QPixmap &icon, QWidget *parent) :
 QDialog(parent),
 ui(std::make_unique<Ui::AboutDialog>())
 {
     ui->setupUi(this);
+    ui->label->setPixmap(icon);
     ui->tabs->setCurrentIndex(0);
     ui->program_ver->setText(QString(PROGRAM_VER).arg(QString(tr("Version %1")).arg(
 #ifdef PROJECT_VERSION_GIT
