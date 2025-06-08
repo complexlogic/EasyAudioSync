@@ -79,7 +79,7 @@ jobs:
         run: cmake --build build --target package --config ${{env.CMAKE_BUILD_TYPE}}
 
       - name: Upload Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows build
           path: build/*${{env.PKG_EXTENSION}}
@@ -141,7 +141,7 @@ jobs:
         run: cmake --build build --target dmg
 
       - name: Upload Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macOS (${{matrix.config.name}}) build
           path: build/*.dmg
@@ -221,7 +221,7 @@ jobs:
         run: cmake --build build --target package
 
       - name: Upload Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.config.name}} build
           path: build/*${{matrix.config.package_ext}}
