@@ -171,7 +171,16 @@ bool Transcoder::OutputFile::open(Codec out_codec, const InputFile &in_file, con
         const auto &preset = config.opus.get_preset();
         codec_ctx->bit_rate = determine_bitrate(preset.bit_rate, codec_ctx->ch_layout.nb_channels);
     }
+#if LIBAVCODEC_VERSION_MAJOR >= 62
+    AVSampleFormat *fmts = nullptr;
+    if ((avcodec_get_supported_config(codec_ctx, codec, AV_CODEC_CONFIG_SAMPLE_FORMAT, 0, const_cast<const void**>(reinterpret_cast<void**>(&fmts)), nullptr) < 0) || !fmts) {
+        transcoder->logger.error("Could not find a valid sample format for the encoder");
+        return false;
+    }
+    codec_ctx->sample_fmt = fmts[0];
+#else
     codec_ctx->sample_fmt = codec->sample_fmts[0];
+#endif
     stream->time_base.den = codec_ctx->sample_rate;
     stream->time_base.num = 1;
 

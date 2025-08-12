@@ -133,7 +133,11 @@ struct Config {
         };
         FDK fdk;
         LAVC lavc;
+#if LIBAVCODEC_VERSION_MAJOR >= 62
+        int profile = AV_PROFILE_AAC_LOW;
+#else
         int profile = FF_PROFILE_AAC_LOW;
+#endif
     };
     struct OGG {
         int quality = VORBIS_DEFAULT_QUALITY;
