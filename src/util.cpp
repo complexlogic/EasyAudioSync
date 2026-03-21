@@ -158,9 +158,9 @@ int determine_sample_rate(Codec codec, const AVCodec *avcodec, int in_rate)
 {
     if (codec == Codec::MP3)
         return std::min(48000, in_rate);
-    int *supported_samplerates = nullptr;
+    const int *supported_samplerates = nullptr;
 #if LIBAVCODEC_VERSION_MAJOR >= 62
-    if ((avcodec_get_supported_config(nullptr, avcodec, AV_CODEC_CONFIG_SAMPLE_RATE, 0, const_cast<const void**>(reinterpret_cast<void**>(&supported_samplerates)), nullptr) < 0) || !supported_samplerates)
+    if ((avcodec_get_supported_config(nullptr, avcodec, AV_CODEC_CONFIG_SAMPLE_RATE, 0, reinterpret_cast<const void**>(&supported_samplerates), nullptr) < 0) || !supported_samplerates)
 #else
     supported_samplerates = avcodec->supported_samplerates;
     if (!supported_samplerates)
